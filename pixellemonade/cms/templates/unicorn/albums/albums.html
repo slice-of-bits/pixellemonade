@@ -1,0 +1,16 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Groups</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for album in albums %}
+            <tr>
+                <td><a href="{% url 'album-detail' album.pk %}">{{ album.title }}</a></td>
+                <td>{% for album_group in album.groups.all %}<a class="btn btn-sm btn-secondary table_inline_button">{{ album_group.name }}</a> {% endfor %}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

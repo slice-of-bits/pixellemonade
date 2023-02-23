@@ -24,3 +24,8 @@ def album_detail_view(request, id):
     return render(request=request,
                   template_name='cms/albums/album.html',
                   context={'album': album})
+
+
+def tagger_view(request):
+    return render(request=request,
+                  template_name='cms/tagger.html')

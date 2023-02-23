@@ -1,5 +1,6 @@
 from typing import List
 from ninja import NinjaAPI
+from ninja.files import UploadedFile
 
 from pixellemonade.api.schemas import AlbumOut, PhotoOut
 from pixellemonade.core.models import Album, Photo
@@ -20,3 +21,12 @@ def photos_list(request):
 @api.get("/album/{album_id}/photos", response=List[PhotoOut])
 def photos_list(request, album_id):
     return Album.objects.get(pk=album_id).photos.all()
+
+
+@api.post("/album/{album_id}/upload", response=List[PhotoOut])
+def photos_list(request, album_id, file: UploadedFile):
+    photo = Photo(original_image=file)
+    photo.calculate_hash()
+    photo.save()
+    photo.album_set.add(album_id)
+    return {'name': file.name}

@@ -1,22 +1,24 @@
 """
 Django settings for pixellemonade project.
 """
-
+import os
+import environ
 from pathlib import Path
+
+env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+STORAGES = {"default": "storages.backends.s3boto3.S3Boto3Storage"}
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-76l$lei88o8uqvr^4lh&!ho99*&2w!&0o_@2+-z_*g+$=&k#0&'
-HASHID_FIELD_SALT = "a long and secure salt value that is not the same as SECRET_KEY"
+SECRET_KEY = env('SECRET_KEY')
+HASHID_FIELD_SALT = env('HASHID_FIELD_SALT')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 

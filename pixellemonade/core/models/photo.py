@@ -28,9 +28,10 @@ class Photo(models.Model):
                                        width_field='original_image_width')
     original_image_height = models.PositiveIntegerField(null=True, blank=True)
     original_image_width = models.PositiveIntegerField(null=True, blank=True)
+    tags = models.ManyToManyField('core.PhotoTag')
 
-    uploaded_at = models.DateTimeField()
-    exif_shot_date_time = models.DateTimeField(db_index=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    exif_shot_date_time = models.DateTimeField(blank=True, null=True, db_index=True)
     exif_rating = models.PositiveSmallIntegerField(default=0, db_index=True)
     exif_fstop = models.FloatField(blank=True, null=True)
     exif_focal_length = models.FloatField(blank=True, null=True)
@@ -39,7 +40,7 @@ class Photo(models.Model):
     exif_camera = models.TextField(blank=True, null=True)
     exif_lens = models.TextField(blank=True, null=True)
 
-    owner = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
+    owner = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
 
     small_thumbnail_height = models.PositiveSmallIntegerField(null=True, blank=True)
     small_thumbnail_width = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -71,9 +72,12 @@ class Photo(models.Model):
                                         width_field='big_thumbnail_width',
                                         null=True)
 
-    def calculate_hash(self):
+    def __str__(self):
+        return self.original_image.name
+
+    def calculate_hash(self, file):
         hash_md5 = hashlib.md5()
-        with self.original_image as f:
+        with self.original_image.open("rb") as f:
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_md5.update(chunk)
         self.image_hash = hash_md5.hexdigest()

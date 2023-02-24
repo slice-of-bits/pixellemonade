@@ -1,0 +1,26 @@
+<div>
+    <style>
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .flex-container > div {
+            background-color: #f1f1f1;
+            margin: 5px;
+        }
+    </style>
+
+    <input class="form-control" placeholder="search" unicorn:model.debounce-500="search_input">
+    <div class="flex-container">
+        {% for photo in photos %}
+            <div style="flex-grow: 100; width: 100px">
+                <img src="{{ photo.original_image.url }}" style="width: 100%">
+                <br>
+                tags:
+                <br>
+                made by:
+            </div>
+        {% endfor %}
+    </div>
+</div>

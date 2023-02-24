@@ -29,3 +29,8 @@ def album_detail_view(request, id):
 def tagger_view(request):
     return render(request=request,
                   template_name='cms/tagger.html')
+
+
+def photos_list(request):
+    return render(request=request,
+                  template_name='cms/photos_list.html')

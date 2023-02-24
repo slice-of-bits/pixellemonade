@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from pixellemonade.core.models import Album, Photo
+from pixellemonade.core.models import Album, Photo, PhotoTag
 
 
 class AlbumAdmin(admin.ModelAdmin):
@@ -16,6 +16,12 @@ class PhotoAdmin(admin.ModelAdmin):
         model = Photo
 
 
+class PhotoTagAdmin(admin.ModelAdmin):
+    class Meta:
+        model = PhotoTag
+
+
 # Register your models here.
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Photo, PhotoAdmin)
+admin.site.register(PhotoTag, PhotoTagAdmin)

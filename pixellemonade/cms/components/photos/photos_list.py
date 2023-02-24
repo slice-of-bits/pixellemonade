@@ -10,7 +10,7 @@ class PhotosListView(UnicornView):
     def search(self):
         print(f'Search for: {self.search_input}')
         photos = Photo.objects.all()
-        if self.search_input:
+        if len(self.search_input) > 1:
             photos = photos.filter(tags__name__contains=self.search_input)
 
         self.photos = photos

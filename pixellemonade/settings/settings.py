@@ -90,8 +90,12 @@ WSGI_APPLICATION = 'pixellemonade.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DB_NAME', 'pixellemonade'),
+        'USER': os.getenv('DB_USERNAME', 'root'),
+        'PASSWORD': os.getenv('DB_PASSWORD', "pass"),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', 5432),
     }
 }
 
@@ -138,3 +142,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'hashid_field.BigHashidAutoField'
 
 HASHID_FIELD_ENABLE_HASHID_OBJECT = False
+
+
+CELERY_BROKER_URL= env.str('CELERY_BROKER_URL', 'amqp://rabbituser:rabbitpassword@localhost:5672//')
+CELERY_TIMEZONE = "Australia/Tasmania"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+S3_URL = env.str('S3_URL', 'http://localhost:9000/')

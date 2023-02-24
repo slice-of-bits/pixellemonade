@@ -13,4 +13,4 @@ class AlbumView(UnicornView):
         self.update_photos()
 
     def update_photos(self):
-        self.photos = self.album.photos.all().defer('id')
+        self.photos = self.album.photo_set.all()

@@ -5,7 +5,7 @@ from django.urls import reverse
 
 
 class AlbumNewView(UnicornView):
-    album_title = None
+    album_name = None
     album_groups = None
     new_group_name = None
 
@@ -16,7 +16,7 @@ class AlbumNewView(UnicornView):
         AlbumGroup.objects.create(name=self.new_group_name)
 
     def save_new_album(self):
-        a = Album.objects.create(title=self.album_title)
+        a = Album.objects.create(title=self.album_name)
         a.groups.add(*self.album_groups)
 
         return redirect(reverse('albums_index'))

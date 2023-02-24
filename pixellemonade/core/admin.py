@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from pixellemonade.core.tasks import process_upload
 from pixellemonade.core.models import Album, Photo, PhotoTag
 
 
@@ -10,8 +10,14 @@ class AlbumAdmin(admin.ModelAdmin):
         model = Album
 
 
-class PhotoAdmin(admin.ModelAdmin):
+@admin.action(description='Remake the thumbnails')
+def generate_new_thumbs(modeladmin, request, queryset):
+    for obj in queryset:
+        process_upload.delay(obj.id)
 
+
+class PhotoAdmin(admin.ModelAdmin):
+    actions = [generate_new_thumbs]
     class Meta:
         model = Photo
 

@@ -2,7 +2,7 @@
 {% load unicorn %}
 
 {% block title %}
-    {{ album.title }}
+    {{ album.name }}
 {% endblock %}
 
 {% block head %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ album.title }}</h1>
+    <h1>{{ album.name }}</h1>
     {% unicorn 'albums.album' album_id=album.id %}
 
     <h2>Add more images</h2>

@@ -40,6 +40,20 @@ services:
     networks:
       - backend
 
+  worker:
+    build: .
+    container_name: pixellemonade_worker
+    command: bash -c "celery -A pixellemonade.core worker --loglevel=INFO"
+    environment:
+      - BROKER_URL=amqp://rabbituser:rabbitpassword@rabbitmq:5672//
+      - S3_URL=http://s3:9000/
+      - SECRET_KEY=SOMERANDOMSECRET
+      - HASHID_FIELD_SALT=SOMEHASHIDFIELDSECRET
+      - DEBUG=True
+      - DB_HOST=db
+    networks:
+      - backend
+
 networks:
   backend:
     external: false

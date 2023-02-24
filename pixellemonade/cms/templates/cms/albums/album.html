@@ -11,7 +11,7 @@
 
 {% block content %}
     <h1>{{ album.title }}</h1>
-{#    {% unicorn 'albums.album' album_id=album.hash_id_str %}#}
+    {% unicorn 'albums.album' album_id=album.id %}
 
     <h2>Add more images</h2>
     <div id="drag-drop-area"></div>
@@ -23,6 +23,6 @@
     <script>
         var uppy = new Uppy.Uppy()
         uppy.use(Uppy.Dashboard, {target: '#drag-drop-area', inline: true})
-        uppy.use(Uppy.XHRUpload, {endpoint: 'http://127.0.0.1:8000/api/album/DBL37zYwXP82Q/upload'})
+        uppy.use(Uppy.XHRUpload, {endpoint: 'http://127.0.0.1:8000/api/album/{{ album.id }}/upload'})
     </script>
 {% endblock %}

@@ -9,16 +9,29 @@ env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-STORAGES = {"default": "storages.backends.s3boto3.S3Boto3Storage"}
+env_path = environ.Path(__file__) - 3
+
+# try to load the env file if there is one
+try:
+    environ.Env.read_env(env_path.file('.env'))
+    print('read settings from .env')
+except FileNotFoundError:
+    print('No env file found')
+    pass
+
+STORAGES = {
+    "default": "storages.backends.s3boto3.S3Boto3Storage",
+    "original_files": "core.storages.PrivateStorage",
+    "thumbnail_files": "core.storages.PublicStorage",
+}
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
-HASHID_FIELD_SALT = env('HASHID_FIELD_SALT')
+SECRET_KEY = env.str('SECRET_KEY')
+HASHID_FIELD_SALT = env.str('HASHID_FIELD_SALT')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = env.bool('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
@@ -123,3 +136,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'hashid_field.BigHashidAutoField'
+
+HASHID_FIELD_ENABLE_HASHID_OBJECT = False

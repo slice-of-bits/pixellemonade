@@ -23,10 +23,10 @@ def photos_list(request, album_id):
     return Album.objects.get(pk=album_id).photos.all()
 
 
-@api.post("/album/{album_id}/upload", response=List[PhotoOut])
-def photos_list(request, album_id, file: UploadedFile):
-    photo = Photo(original_image=file)
-    photo.calculate_hash()
+@api.post("/album/{album_id}/upload")
+def photo_upload(request, album_id, file: UploadedFile):
+    photo = Photo(original_image=file, image_hash=file.name,)
+    # photo.calculate_hash()
     photo.save()
     photo.album_set.add(album_id)
     return {'name': file.name}

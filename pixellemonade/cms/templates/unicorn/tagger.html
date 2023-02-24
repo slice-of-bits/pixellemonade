@@ -1,3 +1,23 @@
 <div>
-    <!-- put component code here -->
+    <img src="{{ current_photo.original_image.url }}" style="width: 100%">
+
+    <button class="btn btn-primary" unicorn:click="random_photo" style="width: 100%">Next</button>
+
+    <br><br>
+
+    {% for tag in tags %}
+        {% if tag in current_photo.tags.all %}
+            <button class="btn btn-outline-danger" unicorn:click="remove_tag('{{ tag.id }}')">{{ tag.name }}</button>
+        {% else %}
+            <button class="btn btn-outline-primary" unicorn:click="add_tag('{{ tag.id }}')">{{ tag.name }}</button>
+        {% endif %}
+
+    {% endfor %}
+
+    <br><br>
+
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" unicorn:model.defer="add_tag">
+        <button class="btn btn-outline-secondary" type="button" unicorn:click="add_new_tag()">Add new tag</button>
+    </div>
 </div>

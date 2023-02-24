@@ -5,6 +5,8 @@ from imagekit.models import ProcessedImageField
 from django.contrib.auth import get_user_model
 from pilkit.processors import ResizeToFit
 
+from pixellemonade.core.storages import PrivateStorage
+
 
 def get_path(instance, filename):
     return 'albums/{0}/{1}'.format(instance.of_album.name, filename)
@@ -25,7 +27,8 @@ def get_big_thumbs_path(instance, filename):
 class Photo(models.Model):
     image_hash = models.CharField(unique=True, max_length=64)
     original_image = models.ImageField(height_field='original_image_height',
-                                       width_field='original_image_width')
+                                       width_field='original_image_width',
+                                       storage=PrivateStorage())
     original_image_height = models.PositiveIntegerField(null=True, blank=True)
     original_image_width = models.PositiveIntegerField(null=True, blank=True)
     tags = models.ManyToManyField('core.PhotoTag')
@@ -50,7 +53,8 @@ class Photo(models.Model):
                                           options={'quality': 60},
                                           height_field='small_thumbnail_height',
                                           width_field='small_thumbnail_width',
-                                          null=True)
+                                          null=True,
+                                          storage='thumbnail_files')
 
     medium_thumbnail_height = models.PositiveSmallIntegerField(null=True, blank=True)
     medium_thumbnail_width = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -60,7 +64,8 @@ class Photo(models.Model):
                                            options={'quality': 60},
                                            height_field='medium_thumbnail_height',
                                            width_field='medium_thumbnail_width',
-                                           null=True)
+                                           null=True,
+                                           storage='thumbnail_files')
 
     big_thumbnail_height = models.PositiveSmallIntegerField(null=True, blank=True)
     big_thumbnail_width = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -70,7 +75,8 @@ class Photo(models.Model):
                                         options={'quality': 85},
                                         height_field='big_thumbnail_height',
                                         width_field='big_thumbnail_width',
-                                        null=True)
+                                        null=True,
+                                        storage='thumbnail_files')
 
     def __str__(self):
         return self.original_image.name

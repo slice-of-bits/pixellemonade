@@ -16,7 +16,5 @@ class PhotoOut(Schema):
     id: str
     image_hash: str
 
-
-
     def resolve_id(self, obj):
         return str(obj.pk)

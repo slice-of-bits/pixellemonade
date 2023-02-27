@@ -5,9 +5,4 @@
         <li>Status:</li>
         <li>Picure count: </li>
     </ul>
-    <h2>Photos</h2>
-    {% for photo in photos %}
-        {{ photo.pk }}
-        <img src="{{ photo.original_image.url }}">
-    {% endfor %}
 </div>

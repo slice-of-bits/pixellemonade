@@ -16,7 +16,8 @@ class AlbumNewView(UnicornView):
         AlbumGroup.objects.create(name=self.new_group_name)
 
     def save_new_album(self):
-        a = Album.objects.create(title=self.album_name)
-        a.groups.add(*self.album_groups)
+        a = Album.objects.create(name=self.album_name)
+        if self.album_groups:
+            a.groups.add(*self.album_groups)
 
         return redirect(reverse('albums_index'))

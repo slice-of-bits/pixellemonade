@@ -10,11 +10,20 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ album.name }}</h1>
-    {% unicorn 'albums.album' album_id=album.id %}
 
-    <h2>Add more images</h2>
-    <div id="drag-drop-area"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <h1>{{ album.name }}</h1>
+            {% unicorn 'albums.album' album_id=album.id %}
+        </div>
+        <div class="col-md-8">
+            <h2>Add more images</h2>
+            <div id="drag-drop-area"></div>
+        </div>
+    </div>
+
+    <h2>Photos</h2>
+    {% unicorn 'photos.photos_list' album_id=album.id %}
 
 {% endblock %}
 

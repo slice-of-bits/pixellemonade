@@ -11,3 +11,4 @@ boto3==1.26.78
 celery==5.2.7
 psycopg2-binary==2.9.5
 exif==1.6.0
+django-debug-toolbar==3.8.1

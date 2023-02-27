@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     'imagekit',
     "django_unicorn",
+    "debug_toolbar",
 
     'pixellemonade.core',
     'pixellemonade.api',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -150,3 +152,8 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
 S3_URL = env.str('S3_URL', 'http://localhost:9000/')
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+

@@ -10,4 +10,5 @@ urlpatterns = [
     path('api/', api.urls),
     path('cms/', include('pixellemonade.cms.urls')),
     path("unicorn/", include("django_unicorn.urls")),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]

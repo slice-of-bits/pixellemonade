@@ -1,6 +1,6 @@
 from django.contrib import admin
 from pixellemonade.core.tasks import process_upload
-from pixellemonade.core.models import Album, Photo, PhotoTag
+from pixellemonade.core.models import Album, Photo, PhotoTag, AlbumGroup
 
 
 class AlbumAdmin(admin.ModelAdmin):
@@ -31,3 +31,4 @@ class PhotoTagAdmin(admin.ModelAdmin):
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(PhotoTag, PhotoTagAdmin)
+admin.site.register(AlbumGroup)

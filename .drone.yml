@@ -1,0 +1,41 @@
+type: docker
+kind: pipeline
+name: test and deploy
+
+steps:
+  - name: django-tests
+    image: python
+    commands:
+      - pip install -r requirements.txt
+      - python manage.py test
+    environment:
+      DEBUG: false
+      DB_NAME: test_db
+      DB_USERNAME: root
+      DB_HOST: database
+      DB_PASSWORD: TestPassword
+  - name: docker
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: registry-username
+      password:
+        from_secret: registry-password
+      repo: registry.sliceofbits.com/pixellemonade
+      registry: registry.sliceofbits.com/
+      tags: latest
+    when:
+      branch:
+      - main
+      event:
+        - push
+
+services:
+  - name: database
+    image: postgres
+    ports:
+    - 5432
+    environment:
+      POSTGRES_DB: test_db
+      POSTGRES_PASSWORD: TestPassword
+      POSTGRES_USER: root

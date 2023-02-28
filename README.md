@@ -1,3 +1,5 @@
+[![Build Status](https://drone.sliceofbits.com/api/badges/slice-of-bits/pixellemonade/status.svg)](https://drone.sliceofbits.com/slice-of-bits/pixellemonade)
+
 # pixellemonade
 The idea behind this project is to make system to store and manage photos on a central place.
 And having a great api to serve the albums and images on multiple places easy.

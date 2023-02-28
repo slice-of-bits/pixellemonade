@@ -21,7 +21,6 @@ except FileNotFoundError:
     pass
 
 STORAGES = {
-    "default": "storages.backends.s3boto3.S3Boto3Storage",
     "original_files": "core.storages.PrivateStorage",
     "thumbnail_files": "core.storages.PublicStorage",
 }
@@ -34,7 +33,6 @@ HASHID_FIELD_SALT = env.str('HASHID_FIELD_SALT')
 DEBUG = env.bool('DEBUG', False)
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -86,7 +84,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pixellemonade.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -103,7 +100,6 @@ DATABASES = {
 
 
 # Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -143,15 +139,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'hashid_field.BigHashidAutoField'
 
-HASHID_FIELD_ENABLE_HASHID_OBJECT = False
+HASHID_FIELD_ENABLE_HASHID_OBJECT = False  # this is easier for the api schema stuff
 
 
 CELERY_BROKER_URL= env.str('CELERY_BROKER_URL', 'amqp://rabbituser:rabbitpassword@localhost:5672//')
 CELERY_TIMEZONE = "Australia/Tasmania"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-
-S3_URL = env.str('S3_URL', 'http://localhost:9000/')
 
 PUBLIC_S3_ENDPOINT_URL = env.str('PUBLIC_S3_ENDPOINT_URL')
 PUBLIC_S3_ACCESS_KEY = env.str('PUBLIC_S3_ACCESS_KEY')

@@ -53,3 +53,29 @@ class AlbumDetailOut(Schema):
     created_on: datetime
     photo_count: int
     photo_set: list[PhotoOut]
+
+
+class PhotoCanvaOut(Schema):
+    id: str
+    name: str
+    type: str = ''
+    thumbnail: dict = None
+
+    def resolve_name(self, obj):
+        return obj.original_image
+
+    def resolve_type(self, obj):
+        return "IMAGE"
+
+    def resolve_thumbnail(self, obj):
+        return {"url": obj.medium_thumbnail.url}
+
+
+class PhotoCanvaSearchIn(Schema):
+    user: str
+    brand: str
+    label: str
+    limit: int
+    type: str
+    locale: str
+    query: str = None

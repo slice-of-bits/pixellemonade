@@ -2,8 +2,10 @@ from typing import List
 from ninja import NinjaAPI
 from ninja.files import UploadedFile
 
-from pixellemonade.api.schemas import AlbumOut, PhotoOut, PhotoDetailsOut, AlbumDetailOut
+from pixellemonade.api.schemas import AlbumOut, PhotoOut, PhotoDetailsOut, AlbumDetailOut, PhotoCanvaOut, \
+    PhotoCanvaSearchIn
 from pixellemonade.core.models import Album, Photo
+from pixellemonade.core.tasks import process_upload
 
 api = NinjaAPI()
 
@@ -37,4 +39,13 @@ def photo_upload(request, album_id, file: UploadedFile):
     photo = Photo(original_image=file, image_hash=file.name, in_album_id=album_id)
     # photo.calculate_hash()
     photo.save()
+    process_upload(photo.id)
     return {'name': file.name}
+
+
+@api.post("/content/resources/find", response=List[PhotoCanvaOut])
+def canva_resources_find(request, body: PhotoCanvaSearchIn):
+    photos = Photo.objects.all()
+    if body.query:
+        photos = photos.filter(tags__name__contains=body.query)
+    return photos

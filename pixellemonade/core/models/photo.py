@@ -38,7 +38,7 @@ class Photo(models.Model):
 
     uploaded_at = models.DateTimeField(auto_now_add=True)
     exif_shot_date_time = models.DateTimeField(blank=True, null=True, db_index=True)
-    exif_json = models.JSONField()
+    exif_json = models.JSONField(null=True)
 
     owner = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
 
@@ -78,11 +78,12 @@ class Photo(models.Model):
     def __str__(self):
         return self.original_image.name
 
-    def calculate_hash(self, file):
+    def calculate_hash(self):
         hash_md5 = hashlib.md5()
         with self.original_image.open("rb") as f:
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_md5.update(chunk)
+        print(hash_md5.hexdigest())
         self.image_hash = hash_md5.hexdigest()
 
     def make_thumbnails(self):

@@ -47,9 +47,9 @@ class PhotoDetailsOut(Schema):
     big_thumbnail: str
 
 
-class AlbumDetailOut:
+class AlbumDetailOut(Schema):
     id: str
     name: str
     created_on: datetime
-    photo_count: int = None
+    photo_count: int
     photo_set: list[PhotoOut]

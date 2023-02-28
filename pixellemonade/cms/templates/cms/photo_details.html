@@ -1,0 +1,8 @@
+{% extends 'cms/base.html' %}
+
+{% block content %}
+
+    <img class="img-fluid" src="{{ photo.big_thumbnail.url }}">
+    <p>{{ photo.exif_json }}</p>
+
+{% endblock %}

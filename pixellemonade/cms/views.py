@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from pixellemonade.core.models import Album
+from pixellemonade.core.models import Album, Photo
 
 
 def index_view(request):
@@ -34,3 +34,9 @@ def tagger_view(request):
 def photos_list(request):
     return render(request=request,
                   template_name='cms/photos_list.html')
+
+
+def photo_details_view(request, id):
+    return render(request=request,
+                  template_name='cms/photo_details.html',
+                  context={'photo': Photo.objects.get(pk=id)})

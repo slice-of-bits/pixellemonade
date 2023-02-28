@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index_view, albums_index_view, album_new_view, album_detail_view, tagger_view, photos_list
+from .views import index_view, albums_index_view, album_new_view, album_detail_view, tagger_view, photos_list, photo_details_view
 
 
 urlpatterns = [
@@ -11,7 +11,7 @@ urlpatterns = [
     #
     path('photos/', photos_list, name='photos_list'),
     # path('photos/upload/'),
-    # path('photo/<id:id>/'),
+    path('photo/<slug:id>/', photo_details_view, name='photo_detail'),
     # path('photo/<id:id>/edit'),
 
     path('tagger/', tagger_view, name='tagger')

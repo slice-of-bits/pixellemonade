@@ -33,7 +33,10 @@
     <ul class="image-gallery">
         {% for photo in photos %}
             <li>
-                <img {% if photo.medium_thumbnail %}src="{{ photo.medium_thumbnail.url }}"{% endif %}>
+                <a href="{% url 'photo_detail' photo.id %}">
+                    <img {% if photo.medium_thumbnail %}src="{{ photo.medium_thumbnail.url }}"{% endif %}>
+                </a>
+
             </li>
         {% endfor %}
     </ul>

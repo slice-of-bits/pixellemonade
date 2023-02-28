@@ -18,6 +18,9 @@ def generate_new_thumbs(modeladmin, request, queryset):
 
 class PhotoAdmin(admin.ModelAdmin):
     actions = [generate_new_thumbs]
+    list_display = ['pk', 'original_image', 'in_album', 'uploaded_at', 'exif_shot_date_time', 'owner']
+    list_filter = ['in_album', 'owner']
+
     class Meta:
         model = Photo
 

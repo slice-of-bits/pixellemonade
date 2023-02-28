@@ -8,6 +8,9 @@ class LowerCaseField(models.CharField):
 
 
 class PhotoTag(models.Model):
-    name = LowerCaseField(max_length=128)
+    name = LowerCaseField(max_length=128, unique=True, db_index=True)
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(get_user_model(), null=True, blank=False, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.name

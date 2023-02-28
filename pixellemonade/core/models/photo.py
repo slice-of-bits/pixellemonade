@@ -83,14 +83,12 @@ class Photo(models.Model):
         with self.original_image.open("rb") as f:
             for chunk in iter(lambda: f.read(4096), b""):
                 hash_md5.update(chunk)
-        print(hash_md5.hexdigest())
         self.image_hash = hash_md5.hexdigest()
 
     def make_thumbnails(self):
         self.big_thumbnail.save(self.pk, self.original_image)
         self.medium_thumbnail.save(self.pk, self.original_image)
         self.small_thumbnail.save(self.pk, self.original_image)
-        # self.save()
 
     def get_exif_data(self):
         img_exif = Image(self.original_image.file)

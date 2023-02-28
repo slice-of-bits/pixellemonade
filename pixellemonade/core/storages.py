@@ -1,27 +1,22 @@
-import os
 from storages.backends.s3boto3 import S3Boto3Storage
-from tempfile import SpooledTemporaryFile
 from django.conf import settings
-
-class CustomS3Boto3Storage:
-    pass
 
 
 class PrivateStorage(S3Boto3Storage):
-    access_key = 'xU46FM88poL0GsvB'
-    secret_key = '0I0oQJWThsDHUqH7hNzlwzcKCv6xVwbx'
-    endpoint_url = settings.S3_URL
+    access_key = settings.PUBLIC_S3_ACCESS_KEY
+    secret_key = settings.PUBLIC_S3_SECRET_KEY
+    endpoint_url = settings.PRIVATE_S3_ENDPOINT_URL
 
-    bucket_name = 'private'
+    bucket_name = settings.PUBLIC_S3_BUCKET_NAME
     custom_domain = ''
     querystring_auth = True
 
 
 class PublicStorage(S3Boto3Storage):
-    access_key = 'xU46FM88poL0GsvB'
-    secret_key = '0I0oQJWThsDHUqH7hNzlwzcKCv6xVwbx'
-    endpoint_url = settings.S3_URL
+    access_key = settings.PRIVATE_S3_ACCESS_KEY
+    secret_key = settings.PRIVATE_S3_SECRET_KEY
+    endpoint_url = settings.PRIVATE_S3_ENDPOINT_URL
 
-    bucket_name = 'public'
+    bucket_name = settings.PRIVATE_S3_BUCKET_NAME
     custom_domain = ''
     querystring_auth = False

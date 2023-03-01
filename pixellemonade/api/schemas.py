@@ -61,6 +61,7 @@ class PhotoCanvaOut(Schema):
     name: str
     contentType: str
     thumbnail: dict = None
+    type: str = "IMAGE"
     url: str
 
     def resolve_name(self, obj):

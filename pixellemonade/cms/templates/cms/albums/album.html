@@ -1,4 +1,5 @@
 {% extends 'cms/base.html' %}
+{% load settings_value %}
 {% load unicorn %}
 
 {% block title %}
@@ -32,6 +33,6 @@
     <script>
         var uppy = new Uppy.Uppy()
         uppy.use(Uppy.Dashboard, {target: '#drag-drop-area', inline: true})
-        uppy.use(Uppy.XHRUpload, {endpoint: 'http://127.0.0.1:8000/api/album/{{ album.id }}/upload'})
+        uppy.use(Uppy.XHRUpload, {endpoint: '{% settings_value "API_HOSTNAME" %}album/{{ album.id }}/upload'})
     </script>
 {% endblock %}

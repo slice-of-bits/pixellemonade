@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from exif import Image
 from imagekit.models import ProcessedImageField
 from pilkit.processors import ResizeToFit
+from django.apps import apps
 
 from pixellemonade.core.storages import PrivateStorage, PublicStorage
 
@@ -94,6 +95,16 @@ class Photo(models.Model):
         self.big_thumbnail.save(self.pk, self.original_image)
         self.medium_thumbnail.save(self.pk, self.original_image)
         self.small_thumbnail.save(self.pk, self.original_image)
+
+    def add_tags_based_on_iptc_tags(self):
+        from iptcinfo3 import IPTCInfo
+
+        info = IPTCInfo(self.original_image)
+
+        for k in info['keywords']:
+            iptc_tag = str(k.decode('UTF-8')).rstrip('\0')
+            tag, created = apps.get_model('core', 'PhotoTag').objects.get_or_create(name=iptc_tag)
+            self.tags.add(tag)
 
     def get_exif_data(self):
         img_exif = Image(self.original_image.file)

@@ -9,5 +9,6 @@ def process_upload(photo_id):
     photo.make_thumbnails()
     photo.calculate_hash()
     photo.get_exif_data()
+    photo.add_tags_based_on_iptc_tags()
 
     photo.save()

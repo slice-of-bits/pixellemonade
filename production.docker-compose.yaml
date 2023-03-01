@@ -31,7 +31,7 @@ services:
   pixel_lemonade_django:
     image: registry.sliceofbits.com/pixellemonade:latest
     container_name: pixellemonade_django
-    command: bash -c "python manage.py migrate; python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py migrate; daphne pixellemonade.asgi:application"
     env_file:
       - .env
     networks:

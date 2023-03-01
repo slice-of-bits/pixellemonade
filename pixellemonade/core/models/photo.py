@@ -29,7 +29,7 @@ def get_big_thumbs_path(instance, filename):
 
 
 class Photo(models.Model):
-    image_hash = models.CharField(unique=True, max_length=64)
+    image_hash = models.CharField(unique=True, max_length=64, null=True)
     original_image = models.ImageField(height_field='original_image_height',
                                        width_field='original_image_width',
                                        storage=PrivateStorage(), upload_to=get_path)

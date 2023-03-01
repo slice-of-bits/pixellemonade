@@ -36,7 +36,7 @@ def album_details(request, album_id):
 
 @api.post("/album/{album_id}/upload")
 def photo_upload(request, album_id, file: UploadedFile):
-    photo = Photo(original_image=file, image_hash=file.name, in_album_id=album_id)
+    photo = Photo(original_image=file, in_album_id=album_id)
     # photo.calculate_hash()
     photo.save()
     process_upload(photo.id)

@@ -160,6 +160,8 @@ class Photo(models.Model):
 
             if img_exif.get('datetime_original'):
                 self.exif_shot_date_time = img_exif.get('datetime_original', '').replace(':', '-', 2)
+        else:
+            print('No exif found')
 
 
 @receiver(models.signals.pre_delete, sender=Photo)

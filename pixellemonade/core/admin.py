@@ -10,14 +10,20 @@ class AlbumAdmin(admin.ModelAdmin):
         model = Album
 
 
-@admin.action(description='Remake the thumbnails')
-def generate_new_thumbs(modeladmin, request, queryset):
+@admin.action(description='Reprocess files using Celery')
+def reprocess_with_celery(modeladmin, request, queryset):
     for obj in queryset:
         process_upload.delay(obj.id)
 
 
+@admin.action(description='Reprocess files using Direct')
+def reprocess_local(modeladmin, request, queryset):
+    for obj in queryset:
+        process_upload(obj.id)
+
+
 class PhotoAdmin(admin.ModelAdmin):
-    actions = [generate_new_thumbs]
+    actions = [reprocess_with_celery, reprocess_local]
     list_display = ['pk', 'original_image', 'in_album', 'uploaded_at', 'exif_shot_date_time', 'owner']
     list_filter = ['in_album', 'owner']
 

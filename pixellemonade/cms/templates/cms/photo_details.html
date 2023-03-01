@@ -1,8 +1,59 @@
 {% extends 'cms/base.html' %}
 
 {% block content %}
-
-    <img class="img-fluid" src="{{ photo.big_thumbnail.url }}">
-    <p>{{ photo.exif_json }}</p>
-
+    <div style="justify-content: center; display: flex;">
+            <img class="img-fluid" src="{{ photo.big_thumbnail.url }}" style="max-height: 500px">
+    </div>
+    <div class="card">
+        <div class="card-header">
+            Details
+        </div>
+        <div class="card-body zero_padding">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Filename</td>
+                        <td>{{ photo.filename }}</td>
+                    </tr>
+                    <tr>
+                        <td>Files:</td>
+                        <td>
+                            <a class="btn btn-primary table_inline_button" target="_blank" href="{{ photo.original_image.url }}">Orginal file</a>
+                            <a class="btn btn-primary table_inline_button" target="_blank" href="{{ photo.big_thumbnail.url }}">Big thumbnail</a>
+                            <a class="btn btn-primary table_inline_button" target="_blank" href="{{ photo.medium_thumbnail.url }}">Medium thumbnail</a>
+                            <a class="btn btn-primary table_inline_button" target="_blank" href="{{ photo.small_thumbnail.url }}">Small thumbnail</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>File hash</td>
+                        <td>{{ photo.image_hash }}</td>
+                    </tr>
+                    <tr>
+                        <td>Size</td>
+                        <td>{{ photo.original_image_width }} X {{ photo.original_image_height }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tags</td>
+                        <td>{% for tag in photo.tags.all %}{{ tag.name }}{% endfor %}</td>
+                    </tr>
+                    <tr>
+                        <td>Uploaded on</td>
+                        <td>{{ photo.uploaded_at }}</td>
+                    </tr>
+                    <tr>
+                        <td>Shot on:</td>
+                        <td>{{ photo.exif_shot_date_time }}</td>
+                    </tr>
+                    <tr>
+                        <td>Exif</td>
+                        <td>
+                            {% for key, value in photo.exif_json.items %}
+                                {{ key }}: {{ value }}<br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

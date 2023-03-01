@@ -59,17 +59,21 @@ class AlbumDetailOut(Schema):
 class PhotoCanvaOut(Schema):
     id: str
     name: str
-    type: str = ''
+    contentType: str
     thumbnail: dict = None
+    url: str
 
     def resolve_name(self, obj):
-        return obj.original_image
+        return obj.filename
 
-    def resolve_type(self, obj):
-        return "IMAGE"
+    def resolve_contentType(self, obj):
+        return "image/jpeg"
 
     def resolve_thumbnail(self, obj):
         return {"url": obj.medium_thumbnail.url}
+
+    def resolve_url(self, obj):
+        return obj.original_image.url
 
 
 class PhotoCanvaSearchIn(Schema):

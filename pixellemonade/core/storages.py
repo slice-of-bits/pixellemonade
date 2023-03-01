@@ -9,7 +9,7 @@ class PublicStorage(S3Boto3Storage):
 
     bucket_name = settings.PUBLIC_S3_BUCKET_NAME
     custom_domain = settings.PUBLIC_S3_CUSTOM_DOMAIN_NAME
-    querystring_auth = True
+    querystring_auth = False
 
 
 class PrivateStorage(S3Boto3Storage):
@@ -19,4 +19,4 @@ class PrivateStorage(S3Boto3Storage):
 
     bucket_name = settings.PRIVATE_S3_BUCKET_NAME
     custom_domain = settings.PRIVATE_S3_CUSTOM_DOMAIN_NAME
-    querystring_auth = False
+    querystring_auth = True

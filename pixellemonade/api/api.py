@@ -43,9 +43,16 @@ def photo_upload(request, album_id, file: UploadedFile):
     return {'name': file.name}
 
 
-@api.post("/content/resources/find", response=List[PhotoCanvaOut])
+@api.post("/content/resources/find",)
 def canva_resources_find(request, body: PhotoCanvaSearchIn):
     photos = Photo.objects.all()
     if body.query:
         photos = photos.filter(tags__name__contains=body.query)
-    return photos
+
+    response_json = {
+        "type": "SUCCESS",
+        "resources": [PhotoCanvaOut.from_orm(i).dict() for i in photos]
+    }
+
+    return response_json
+

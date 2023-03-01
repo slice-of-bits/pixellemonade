@@ -31,7 +31,12 @@
 {% block extra_js %}
     <script src="https://releases.transloadit.com/uppy/v3.5.0/uppy.min.js"></script>
     <script>
-        var uppy = new Uppy.Uppy()
+        var uppy = new Uppy.Uppy({
+                restrictions: {
+                    allowedFileTypes: ['.jpg', '.png']
+                },
+            }
+        )
         uppy.use(Uppy.Dashboard, {target: '#drag-drop-area', inline: true})
         uppy.use(Uppy.XHRUpload, {endpoint: '{% settings_value "API_HOSTNAME" %}album/{{ album.id }}/upload'})
     </script>

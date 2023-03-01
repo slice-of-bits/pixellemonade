@@ -39,7 +39,7 @@ def photo_upload(request, album_id, file: UploadedFile):
     photo = Photo(original_image=file, in_album_id=album_id)
     # photo.calculate_hash()
     photo.save()
-    process_upload(photo.id)
+    process_upload.delay(photo.id)
     return {'name': file.name}
 
 

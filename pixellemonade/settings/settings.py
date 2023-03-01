@@ -32,7 +32,7 @@ HASHID_FIELD_SALT = env.str('HASHID_FIELD_SALT')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', False)
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', '*')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 # Application definition
 
@@ -158,5 +158,5 @@ PRIVATE_S3_SECRET_KEY = env.str('PRIVATE_S3_SECRET_KEY')
 PRIVATE_S3_BUCKET_NAME = env.str('PRIVATE_S3_BUCKET_NAME')
 
 
-INTERNAL_IPS = env.list('INTERNAL_IPS', ["127.0.0.1"])
+INTERNAL_IPS = env.list('INTERNAL_IPS', default=["127.0.0.1"])
 

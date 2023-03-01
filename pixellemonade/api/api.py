@@ -24,7 +24,7 @@ def photos_list(request):
     return Photo.objects.all()[:100]
 
 
-@api.get("/photo/{album_id}", response=PhotoDetailsOut, url_name='photo_detail')
+@api.get("/photo/{photo_id}", response=PhotoDetailsOut, url_name='photo_detail')
 def photos_list(request, photo_id):
     return Photo.objects.get(pk=photo_id)
 

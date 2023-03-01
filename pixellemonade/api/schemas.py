@@ -24,15 +24,16 @@ class PhotoDetailsOut(Schema):
     id: str
     image_hash: str
 
+    filename: str
     original_image: str
     original_image_height: int
     original_image_width: int
     tags: list[TagOut]
 
     uploaded_at: datetime
-    exif_shot_date_time: datetime
-    exif_json: str
-    owner: int
+    exif_shot_date_time: datetime = None
+    exif_json: dict = None
+    owner: int = None
 
     small_thumbnail_height: int
     small_thumbnail_width: int

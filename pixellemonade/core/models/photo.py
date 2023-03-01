@@ -1,4 +1,5 @@
 import hashlib
+import os
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -75,6 +76,10 @@ class Photo(models.Model):
                                         null=True,
                                         storage=PublicStorage())
 
+    @property
+    def filename(self):
+        return os.path.basename(self.original_image.name)
+
     def __str__(self):
         return self.original_image.name
 
@@ -92,6 +97,12 @@ class Photo(models.Model):
 
     def get_exif_data(self):
         img_exif = Image(self.original_image.file)
+
+        def get_flash_data(data):
+            if data:
+                return {"flash_fired": data.flash_fired}
+            return None
+
         if img_exif.has_exif:
             self.exif_json = {
                 'make': img_exif.get('make'),
@@ -126,9 +137,7 @@ class Photo(models.Model):
                 'max_aperture_value': img_exif.get('max_aperture_value'),
                 'metering_mode': img_exif.get('metering_mode'),
                 'light_source': img_exif.get('light_source'),
-                'flash': {
-                    "flash_fired": img_exif.get('flash').flash_fired,
-                },
+                'flash': get_flash_data(img_exif.get('flash')),
                 'focal_length': img_exif.get('focal_length'),
                 'color_space': img_exif.get('color_space'),
                 'focal_plane_x_resolution': img_exif.get('focal_plane_x_resolution'),

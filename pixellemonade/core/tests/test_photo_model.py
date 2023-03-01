@@ -1,18 +1,40 @@
+from django.conf import settings
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.db import IntegrityError
 from django.test import TestCase
-from pixellemonade.core.models.photo import Photo
+from pixellemonade.core.models import Photo, Album
 
 
 class TestPhotoModel(TestCase):
+    def setUp(self):
+        self.album = Album.objects.create(name='Some test album')
 
-    def test_image_hash_is_generated(self):
-        test_photo = Photo.objects.create()
-        expexted_hash = ''
-        self.assertEqual(expexted_hash, test_photo.image_hash)
+    def get_test_file(self):
+        return SimpleUploadedFile(name='Test image', content_type='image/jpeg',
+                                  content=open(
+                                      f'{settings.BASE_DIR}\\core\\tests\\test_images\\test_image_1.jpg',
+                                      'rb').read())
+
+    def test_image_hash_generation(self):
+        test_photo = Photo.objects.create(
+            original_image=self.get_test_file(),
+            in_album=self.album)
+        test_photo.calculate_hash()
+
+        self.assertEqual('bc1eb6309ba77be6580b00670642d75d', test_photo.image_hash)
 
     def test_prevent_upload_the_same_image_using_hash(self):
-        test_photo = Photo.objects.create()
+        test_photo = Photo.objects.create(
+            original_image=self.get_test_file(),
+            in_album=self.album)
+        test_photo.calculate_hash()
+        test_photo.save()
 
         def add_a_double_image():
-            test_photo2 = Photo.objects.create()
+            test_photo_double = Photo.objects.create(
+                original_image=self.get_test_file(),
+                in_album=self.album)
+            test_photo_double.calculate_hash()
+            test_photo_double.save()
 
-        self.assertRaises(SomeCoolException, add_a_double_image)
+        self.assertRaises(IntegrityError, add_a_double_image)

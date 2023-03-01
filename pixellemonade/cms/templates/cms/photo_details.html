@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <td>Tags</td>
-                        <td>{% for tag in photo.tags.all %}{{ tag.name }}{% endfor %}</td>
+                        <td>{% for tag in photo.tags.all %}{{ tag.name }}, {% endfor %}</td>
                     </tr>
                     <tr>
                         <td>Uploaded on</td>

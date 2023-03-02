@@ -23,7 +23,7 @@ class PhotosListView(UnicornView):
             photos = photos.filter(in_album=self.album_id)
 
         if self.search_input:
-            photos = Photo.objects.all().filter(tags__name__contains=self.search_input).prefetch_related('tags')
+            photos = Photo.objects.all().filter(tags__name__contains=self.search_input).distinct('pk').prefetch_related('tags')
         self.photos = photos
 
     def updated_search_input(self, value):

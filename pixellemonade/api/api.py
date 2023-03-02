@@ -47,7 +47,7 @@ def photo_upload(request, album_id, file: UploadedFile):
 def canva_resources_find(request, body: PhotoCanvaSearchIn):
     photos = Photo.objects.all()
     if body.query:
-        photos = photos.filter(tags__name__contains=body.query)
+        photos = photos.filter(tags__name__contains=body.query).distinct('pk')
 
     response_json = {
         "type": "SUCCESS",

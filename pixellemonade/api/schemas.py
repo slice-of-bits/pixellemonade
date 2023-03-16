@@ -10,8 +10,8 @@ class AlbumOut(Schema):
 
 
 class TagOut(Schema):
-    name: str
-    slug: str
+    name: str = None
+    slug: str = None
 
 
 class PhotoOut(Schema):
@@ -28,7 +28,7 @@ class PhotoDetailsOut(Schema):
     original_image: str
     original_image_height: int
     original_image_width: int
-    tags: list[TagOut]
+    tags: list[TagOut] = None
 
     uploaded_at: datetime
     exif_shot_date_time: datetime = None
@@ -54,34 +54,3 @@ class AlbumDetailOut(Schema):
     created_on: datetime
     photo_count: int
     photo_set: list[PhotoOut]
-
-
-class PhotoCanvaOut(Schema):
-    id: str
-    name: str
-    contentType: str
-    thumbnail: dict = None
-    type: str = "IMAGE"
-    url: str
-
-    def resolve_name(self, obj):
-        return obj.filename
-
-    def resolve_contentType(self, obj):
-        return "image/jpeg"
-
-    def resolve_thumbnail(self, obj):
-        return {"url": obj.medium_thumbnail.url}
-
-    def resolve_url(self, obj):
-        return obj.original_image.url
-
-
-class PhotoCanvaSearchIn(Schema):
-    user: str
-    brand: str
-    label: str
-    limit: int
-    type: str
-    locale: str
-    query: str = None

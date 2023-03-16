@@ -2,8 +2,7 @@ from typing import List
 from ninja import NinjaAPI
 from ninja.files import UploadedFile
 
-from pixellemonade.api.schemas import AlbumOut, PhotoOut, PhotoDetailsOut, AlbumDetailOut, PhotoCanvaOut, \
-    PhotoCanvaSearchIn
+from pixellemonade.api.schemas import AlbumOut, PhotoOut, PhotoDetailsOut, AlbumDetailOut
 from pixellemonade.core.models import Album, Photo
 from pixellemonade.core.tasks import process_upload
 
@@ -43,16 +42,5 @@ def photo_upload(request, album_id, file: UploadedFile):
     return {'name': file.name}
 
 
-@api.post("/content/resources/find",)
-def canva_resources_find(request, body: PhotoCanvaSearchIn):
-    photos = Photo.objects.all()
-    if body.query:
-        photos = photos.filter(tags__name__contains=body.query).distinct('pk')
 
-    response_json = {
-        "type": "SUCCESS",
-        "resources": [PhotoCanvaOut.from_orm(i).dict() for i in photos]
-    }
-
-    return response_json
 

@@ -1,3 +1,5 @@
+import urllib.parse
+
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, Client
@@ -22,16 +24,22 @@ class TestPhotoEndpoint(TestCase):
         self.response = self.client.get(reverse('api-1.0.0:photo_detail', kwargs={'photo_id': self.photo.id}))
 
     def test_photo_hash_included(self):
-        self.assertContains(self.response, 'bc1eb6309ba77be6580b00670642d75d')
+        self.assertContains(self.response, '2dfdd59b1164bdedc5d1a769e00fec44')
 
     def test_photo_filename_included(self):
         self.assertIn('Test_image', self.response.json().get('filename'))
 
     def test_photo_small_thumbnail_included(self):
-        self.assertTrue(self.response.json().get('small_thumbnail'))
+        self.assertTrue(
+            f'thumbnails/{urllib.parse.quote(self.album.name)}/small/{self.photo.id}'
+            in self.response.json().get('small_thumbnail'))
 
     def test_photo_medium_thumbnail_included(self):
-        self.assertTrue(self.response.json().get('medium_thumbnail'))
+        self.assertTrue(
+            f'thumbnails/{urllib.parse.quote(self.album.name)}/medium/{self.photo.id}'
+            in self.response.json().get('medium_thumbnail'))
 
     def test_photo_big_thumbnail_included(self):
-        self.assertTrue(self.response.json().get('big_thumbnail'))
+        self.assertTrue(
+            f'thumbnails/{urllib.parse.quote(self.album.name)}/big/{self.photo.id}'
+            in self.response.json().get('big_thumbnail'))

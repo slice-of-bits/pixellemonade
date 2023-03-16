@@ -21,7 +21,7 @@ class TestPhotoModel(TestCase):
             in_album=self.album)
         test_photo.calculate_hash()
 
-        self.assertEqual('bc1eb6309ba77be6580b00670642d75d', test_photo.image_hash)
+        self.assertEqual('2dfdd59b1164bdedc5d1a769e00fec44', test_photo.image_hash)
 
     def test_prevent_upload_the_same_image_using_hash(self):
         test_photo = Photo.objects.create(

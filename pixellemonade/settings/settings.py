@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'pixellemonade.core',
     'pixellemonade.api',
     'pixellemonade.cms',
+    'pixellemonade.canva',
 ]
 
 MIDDLEWARE = [

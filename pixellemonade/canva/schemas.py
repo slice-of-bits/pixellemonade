@@ -1,7 +1,6 @@
 from ninja import Schema
 
-
-class PhotoCanvaOut(Schema):
+class CanvaResourcesOut(Schema):
     id: str
     name: str
     contentType: str
@@ -20,6 +19,12 @@ class PhotoCanvaOut(Schema):
 
     def resolve_url(self, obj):
         return obj.original_image.url
+
+
+class PhotoCanvaOut(Schema):
+    type: str = "SUCCESS",
+    resources: CanvaResourcesOut = None
+    continuation: int = None
 
 
 class PhotoCanvaSearchIn(Schema):

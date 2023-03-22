@@ -1,7 +1,8 @@
+from django.core.paginator import Paginator
 from ninja import NinjaAPI
 
 from pixellemonade.canva.models import CanvaUser
-from pixellemonade.canva.schemas import PhotoCanvaSearchIn, PhotoCanvaOut
+from pixellemonade.canva.schemas import PhotoCanvaSearchIn, PhotoCanvaOut, CanvaResourcesOut
 from pixellemonade.core.models import Photo
 
 api = NinjaAPI(urls_namespace='canva_api')
@@ -25,9 +26,16 @@ def canva_resources_find(request, body: PhotoCanvaSearchIn):
     if body.query:
         photos = photos.filter(tags__name__contains=body.query).distinct('pk')
 
+    page_nr = request.GET.get('page', 1)
+    paginator = Paginator(photos, per_page=100)
+    page = paginator.get_page(page_nr)
+
     response_json = {
         "type": "SUCCESS",
-        "resources": [PhotoCanvaOut.from_orm(i).dict() for i in photos]
+        "resources": [CanvaResourcesOut.from_orm(i).dict() for i in page]
     }
+
+    if page.has_next():
+        response_json['continuation'] = page.next_page_number()
 
     return response_json

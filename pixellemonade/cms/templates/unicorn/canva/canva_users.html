@@ -1,0 +1,20 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Canva User ID</th>
+            <th>Added by user</th>
+            <th>Added on</th>
+            <th>Remove access</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.canva_user_id }}</td>
+                <td>{{ user.user }}</td>
+                <td>{{ user.added_on }}</td>
+                <td><button class="btn btn-danger table_inline_button" unicorn:click="delete_user({{ user.pk }})">Delete</button> </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

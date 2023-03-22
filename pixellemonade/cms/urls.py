@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import index_view, albums_index_view, album_new_view, album_detail_view, tagger_view, photos_list, photo_details_view
+from .views import index_view, albums_index_view, album_new_view, album_detail_view, tagger_view, photos_list, \
+    photo_details_view, canva_users_list_view
 
 
 urlpatterns = [
@@ -14,5 +15,6 @@ urlpatterns = [
     path('photo/<slug:id>/', photo_details_view, name='photo_detail'),
     # path('photo/<id:id>/edit'),
 
-    path('tagger/', tagger_view, name='tagger')
+    path('tagger/', tagger_view, name='tagger'),
+    path('canva_users/', canva_users_list_view, name='canva_user_list')
 ]

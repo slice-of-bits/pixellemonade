@@ -40,3 +40,8 @@ def photo_details_view(request, id):
     return render(request=request,
                   template_name='cms/photo_details.html',
                   context={'photo': Photo.objects.get(pk=id)})
+
+
+def canva_users_list_view(request):
+    return render(request=request,
+                  template_name='cms/canva/users.html')

@@ -9,6 +9,7 @@ from pixellemonade.canva.models import CanvaUser
 @login_required
 def canva_login_view(request):
     canva_user_id = request.GET.get('user')
+    print(canva_user_id)
 
     # If the canva userid is not found in the query parms return a http500
     if not canva_user_id:
@@ -18,8 +19,9 @@ def canva_login_view(request):
     if CanvaUser.objects.filter(canva_user_id=canva_user_id).exists():
         return redirect(f"https://canva.com/apps/configured?success=true&state={request.GET.get('state')}")
 
-    if request.POST:
+    if request.method == 'POST':
         CanvaUser.objects.create(canva_user_id=canva_user_id, user_id=request.user.id)
+        print('created')
         return redirect(f"https://canva.com/apps/configured?success=true&state={request.GET.get('state')}")
 
     return render(request=request,

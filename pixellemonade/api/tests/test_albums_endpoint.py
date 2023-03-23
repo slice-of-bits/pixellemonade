@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.urls import reverse
 from django.test import TestCase, Client
 from pixellemonade.core.models import Album, AlbumGroup
@@ -28,7 +30,16 @@ class TestAlbumsEndpoint(TestCase):
         self.assertNotContains(response, self.album3.name)
 
     def test_album_ordered_by_date_created(self):
-        return False
+        response = self.client.get(f"{reverse('api-1.0.0:albums_list')}")
+        print(response.json())
+        self.assertEqual(response.json()[0]['name'], self.album3.name)
 
-    def test_album_pagination(self):
-        return False
+        self.album1.created_on = datetime.now() + timedelta(days=1)
+        self.album1.save()
+
+        response = self.client.get(f"{reverse('api-1.0.0:albums_list')}")
+
+        self.assertEqual(response.json()[0]['name'], self.album1.name)
+        self.assertEqual(response.json()[1]['name'], self.album3.name)
+
+

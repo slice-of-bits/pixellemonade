@@ -15,9 +15,7 @@ env_path = environ.Path(__file__) - 3
 # try to load the env file if there is one
 try:
     environ.Env.read_env(env_path.file('.env'))
-    print('read settings from .env')
 except FileNotFoundError:
-    print('No env file found')
     pass
 
 STORAGES = {
@@ -45,8 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'imagekit',
-    "django_unicorn",
-    "debug_toolbar",
+    'django_unicorn',
+    'debug_toolbar',
+    'ninja',
 
     'pixellemonade.core',
     'pixellemonade.api',

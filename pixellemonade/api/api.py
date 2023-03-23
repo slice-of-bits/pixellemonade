@@ -11,7 +11,7 @@ api = NinjaAPI()
 
 @api.get("/albums", response=List[AlbumOut], url_name='albums_list')
 def albums_list(request, groups: str = None):
-    albums = Album.objects.all()
+    albums = Album.objects.all().order_by('-created_on')
     if groups:
         groups_list = groups.split(',')
         albums = albums.filter(groups__slug__in=groups_list)
@@ -34,12 +34,21 @@ def album_details(request, album_id):
 
 
 @api.post("/album/{album_id}/upload")
-def photo_upload(request, album_id, file: UploadedFile):
+def photo_upload(request, album_id, file: UploadedFile, process_now: bool = False):
     photo = Photo(original_image=file, in_album_id=album_id)
-    # photo.calculate_hash()
     photo.save()
-    process_upload.delay(photo.id)
-    return {'name': file.name}
+    print(request.POST.get('process_now', False))
+    if request.POST.get('process_now', False):
+        photo.make_thumbnails()
+        photo.calculate_hash()
+        photo.get_exif_data()
+        photo.add_tags_based_on_iptc_tags()
+        processing = 'Done'
+    else:
+        process_upload.delay(photo.id)
+        processing = "queued"
+    return {'name': file.name,
+            'processing': processing}
 
 
 

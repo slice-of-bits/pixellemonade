@@ -44,11 +44,10 @@ class TestCanvaAuthentication(TestCase):
         self.assertNotEqual(response.json().get("type"), "ERROR")
         self.assertNotEqual(response.json().get("errorCode"), "CONFIGURATION_REQUIRED")
 
-
     def test_canva_user_id_is_added_if_user_is_authenticated(self):
         self.client.force_login(self.user)
         res = self.client.post(f"{reverse('canva_login')}?user=123456&state=09876")
-        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.status_code, 302)
         canva_user = CanvaUser.objects.get(canva_user_id='123456')
         self.assertEqual(canva_user.canva_user_id, '123456')
 
@@ -56,4 +55,4 @@ class TestCanvaAuthentication(TestCase):
         res = self.client.post(f"{reverse('canva_login')}?user=123456&state=09876")
         self.assertEqual(res.status_code, 302)
         canva_user = CanvaUser.objects.filter(canva_user_id='123456')
-        self.assertTrue(canva_user.exists())
+        self.assertFalse(canva_user.exists())

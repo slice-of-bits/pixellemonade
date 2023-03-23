@@ -19,7 +19,15 @@
         </div>
         <div class="col-md-8">
             <h2>Add more images</h2>
-            <div id="drag-drop-area"></div>
+            <form>
+
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="process_upload_checkbox">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Direct processing</label>
+                </div>
+                <div type="file" id="drag-drop-area"></div>
+            </form>
         </div>
     </div>
 
@@ -31,7 +39,7 @@
 {% block extra_js %}
     <script src="https://releases.transloadit.com/uppy/v3.5.0/uppy.min.js"></script>
     <script>
-        var uppy = new Uppy.Uppy({
+        let uppy = new Uppy.Uppy({
                 restrictions: {
                     allowedFileTypes: ['.jpg', '.png']
                 },
@@ -39,5 +47,17 @@
         )
         uppy.use(Uppy.Dashboard, {target: '#drag-drop-area', inline: true})
         uppy.use(Uppy.XHRUpload, {endpoint: '{% settings_value "API_HOSTNAME" %}album/{{ album.id }}/upload'})
+
+        let checkBox = document.getElementById("process_upload_checkbox");
+        checkBox.addEventListener("change", function () {
+            if (this.checked) {
+                console.log("Checkbox is checked.");
+                uppy.setMeta({process_now: true})
+            } else {
+                console.log("Checkbox is not checked.");
+                uppy.setMeta({process_now: false})
+            }
+        });
+
     </script>
 {% endblock %}

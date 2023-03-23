@@ -1,0 +1,16 @@
+{% extends 'canva/base.html' %}
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    By clicking "Allow" Canva will get access to:
+    <ul>
+        <li>Photos</li>
+        <li>Videos</li>
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Allow">
+    </form>
+{% endblock %}

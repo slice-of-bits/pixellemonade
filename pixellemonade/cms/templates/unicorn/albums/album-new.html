@@ -1,0 +1,21 @@
+<div>
+    <div class="mb-3">
+        <label for="album_name" class="form-label">Title</label>
+        <input type="text" class="form-control" id="album_name" unicorn:model.defer="album_name">
+    </div>
+    <div class="mb-3">
+        <label for="album_groups" class="form-label">Groups</label>
+        <select id="album_groups" class="form-select" unicorn:model.defer="album_groups" multiple>
+            {% for group in groups %}
+                <option value="{{ group.pk }}">{{ group.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" unicorn:model.defer="new_group_name">
+        <button class="btn btn-outline-secondary" type="button" unicorn:click="add_new_group()">Add group</button>
+    </div>
+
+    <button class="btn btn-primary" unicorn:click="save_new_album()">Add album</button>
+</div>

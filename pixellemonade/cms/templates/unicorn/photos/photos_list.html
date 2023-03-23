@@ -1,0 +1,43 @@
+<div>
+    <style>
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            list-style: none;
+            padding-left: 0;
+            margin-top: 16px;
+        }
+
+        .image-gallery > li {
+            flex: 2 2 auto; /* or flex: auto; */
+            height: 200px;
+            cursor: pointer;
+        }
+
+        .image-gallery::after {
+            content: "";
+            flex-grow: 999;
+        }
+
+        .image-gallery li img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            vertical-align: middle;
+            border-radius: 5px;
+        }
+    </style>
+
+    <input class="form-control" placeholder="search" unicorn:model="search_input">
+    <ul class="image-gallery">
+        {% for photo in photos %}
+            <li>
+                <a href="{% url 'photo_detail' photo.id %}">
+                    <img {% if photo.medium_thumbnail %}src="{{ photo.medium_thumbnail.url }}"{% endif %}>
+                </a>
+
+            </li>
+        {% endfor %}
+    </ul>
+</div>

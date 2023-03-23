@@ -122,3 +122,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+.idea
+
+# Docker data
+db-data
+s3-data

@@ -1,11 +1,20 @@
 from django_unicorn.components import UnicornView
 
 from pixellemonade.core.models import Photo
+from pixellemonade.prodigi.models import OrderItem, ProductGroup
 
 
 class OrderingView(UnicornView):
-    photos = None
+    items = []
+    product_groups = ProductGroup.objects.none()
 
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)  # calling super is required
-        self.photos = Photo.objects.all().filter(pk__in=self.request.GET.get('ids').split(','))
+        photos = Photo.objects.all().filter(pk__in=self.request.GET.get('ids').split(','))
+        for photo in photos:
+            self.items.append(OrderItem(photo=photo))
+
+        self.product_groups = ProductGroup.objects.all()
+
+    def remove_item(self, item_id):
+        self.items.remove(item_id)

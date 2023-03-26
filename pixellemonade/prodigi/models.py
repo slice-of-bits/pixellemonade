@@ -3,11 +3,16 @@ from django.db import models
 
 # Create your models here.
 
+class ProductGroup(models.Model):
+    name = models.CharField(max_length=120)
+    description = models.TextField()
+
 
 class Product(models.Model):
     """
     source: https://www.prodigi.com/print-api/docs/reference/#product-details-object
     """
+    of_group = models.ForeignKey('prodigi.ProductGroup', on_delete=models.CASCADE, related_name='products')
     sku = models.CharField(max_length=30, blank=None)
     description = models.CharField(max_length=120, null=True, blank=True)
     product_dimensions_height = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -48,6 +53,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    photo = models.ForeignKey('core.Photo', on_delete=models.SET_NULL, null=True)
     of_order = models.ForeignKey('prodigi.Order', related_name='items', on_delete=models.CASCADE)
     sku = models.CharField(max_length=30)
     copies = models.PositiveSmallIntegerField(default=1)

@@ -13,7 +13,7 @@
                 <td><a href="{% url 'album_detail' album.pk %}">{{ album.name }}</a></td>
                 <td>{{ album.photo_count }}</td>
                 <td>{% for album_group in album.groups.all %}<a class="btn btn-sm btn-secondary table_inline_button">{{ album_group.name }}</a> {% endfor %}</td>
-                <td>-</td>
+                <td><button class="btn btn-danger table_inline_button" unicorn:click="delete('{{ album.pk }}')">Delete</button></td>
             </tr>
         {% endfor %}
     </tbody>

@@ -8,3 +8,7 @@ class AlbumsView(UnicornView):
 
     def albums(self):
         return Album.objects.all()
+
+    def delete(self, album_id):
+        Album.objects.get(pk=album_id).delete()
+        self.albums()

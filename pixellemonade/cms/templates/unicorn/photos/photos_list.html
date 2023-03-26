@@ -34,7 +34,10 @@
         {% for photo in photos %}
             <li>
                 <a href="{% url 'photo_detail' photo.id %}">
-                    <img {% if photo.medium_thumbnail %}src="{{ photo.medium_thumbnail.url }}"{% endif %}>
+                    <img {% if photo.medium_thumbnail %}src="{{ photo.medium_thumbnail.url }}"
+                         height="{{ photo.medium_thumbnail.height }}"
+                         width="{{ photo.medium_thumbnail.width }}" {% endif %}
+                         loading="lazy" alt="{{ photo.title }}">
                 </a>
 
             </li>

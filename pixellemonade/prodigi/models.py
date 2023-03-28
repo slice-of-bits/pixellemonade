@@ -65,10 +65,16 @@ class OrderItem(models.Model):
 
 
 class ShoppingCard(models.Model):
-    pass
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def products_count(self):
+        return self.items.count()
 
 
 class ShoppingCardItem(models.Model):
     of_shopping_card = models.ForeignKey('prodigi.ShoppingCard', related_name='items', on_delete=models.CASCADE)
     photo = models.ForeignKey('core.Photo', on_delete=models.SET_NULL, null=True)
     count = models.PositiveSmallIntegerField(default=1)
+    crop_settings = models.JSONField(null=True, blank=True)

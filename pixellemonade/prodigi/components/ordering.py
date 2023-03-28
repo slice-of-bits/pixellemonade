@@ -18,3 +18,9 @@ class OrderingView(UnicornView):
 
     def remove_item(self, item_id):
         self.items.remove(item_id)
+
+    def order_detail_count_plus(self, order_detail_id):
+        pass
+
+    def order_detail_count_minus(self, order_detail_id):
+        pass

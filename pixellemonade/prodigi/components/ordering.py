@@ -11,10 +11,16 @@ class OrderingView(UnicornView):
 
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)  # calling super is required
-        self.card = ShoppingCard.objects.create()
+        if self.request.session.get('shopping_card_id'):
+            self.card = ShoppingCard.objects.get(pk=self.request.session.get('shopping_card_id'))
+        else:
+            self.card = ShoppingCard.objects.create()
+            self.request.session['shopping_card_id'] = self.card.pk
+
         photos = Photo.objects.all().filter(pk__in=self.request.GET.get('ids').split(','))
         for photo in photos:
-            ShoppingCardItem.objects.create(photo=photo, of_shopping_card=self.card)
+            if not photo.pk in self.card.items.values_list('photo_id', flat=True):
+                ShoppingCardItem.objects.create(photo=photo, of_shopping_card=self.card)
 
         self.product_groups = ProductGroup.objects.all()
 

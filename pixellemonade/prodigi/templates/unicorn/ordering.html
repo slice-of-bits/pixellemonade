@@ -6,7 +6,7 @@
             <div class="card-body">
                 <h2>Order your prints</h2>
                 {% for detail in card.items.all %}
-                    {% unicorn 'ordering_detail' parent=view detail=detail product_groups=product_groups %}
+                    {% unicorn 'ordering_detail' parent=view detail=detail product_groups=product_groups key=detail.pk %}
                 {% endfor %}
             </div>
         </div>

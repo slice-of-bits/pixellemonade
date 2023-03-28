@@ -62,3 +62,13 @@ class OrderItem(models.Model):
                                        ('stretchToPrintArea', 'stretchToPrintArea')])
     recipientCost = models.DecimalField(max_digits=5, decimal_places=2)
     attributes = models.JSONField()
+
+
+class ShoppingCard(models.Model):
+    pass
+
+
+class ShoppingCardItem(models.Model):
+    of_shopping_card = models.ForeignKey('prodigi.ShoppingCard', related_name='items', on_delete=models.CASCADE)
+    photo = models.ForeignKey('core.Photo', on_delete=models.SET_NULL, null=True)
+    count = models.PositiveSmallIntegerField(default=1)

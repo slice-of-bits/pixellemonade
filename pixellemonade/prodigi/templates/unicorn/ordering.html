@@ -1,47 +1,12 @@
+{% load unicorn %}
 <div class="row justify-content-center">
     <div class="col-md-10">
 
         <div class="card" style="margin-bottom: 16px">
             <div class="card-body">
                 <h2>Order your prints</h2>
-                {% for item in items %}
-
-                    <div class="row border-top border-bottom">
-                        <div class="row main align-items-center">
-                            <div class="col-2"><img class="img-fluid" src="{{ item.photo.small_thumbnail.url }}"></div>
-                            <div class="col">
-                                <div class="text-muted">Print:</div>
-                                <select class="form-select form-select-sm">
-                                    {% for product_group in product_groups %}
-                                        <option>{{ product_group.name }}</option>
-                                    {% endfor %}
-                                </select>
-                                <div class="text-muted">Size:</div>
-                                <select class="form-select form-select-sm">
-                                    <option>10x20</option>
-                                    <option>20x30</option>
-                                    <option>30x60</option>
-                                    <option>60x120</option>
-                                </select>
-                            </div>
-                            <div class="col">
-                                <div class="input-group mb-3 input-group-sm">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">-
-                                    </button>
-                                    <input type="text" class="form-control" placeholder="1">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon1">+
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col">&euro; 44.00</div>
-                            <div class="col">
-                                <button class="btn btn-sm btn-outline-primary">Duplicate picture</button>
-                            </div>
-                            <div class="col">
-                                <button class="btn btn-sm btn-outline-danger">X</button>
-                            </div>
-                        </div>
-                    </div>
+                {% for detail in card.items.all %}
+                    {% unicorn 'ordering_detail' parent=view detail=detail product_groups=product_groups %}
                 {% endfor %}
             </div>
         </div>
@@ -52,25 +17,6 @@
             <div class="card-body">
                 <h2>Summary</h2>
                 <p>Shipping</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
             </div>
         </div>
     </div>

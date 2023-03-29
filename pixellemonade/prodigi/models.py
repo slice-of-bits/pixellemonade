@@ -6,6 +6,9 @@ class ProductGroup(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class Product(models.Model):
     """
@@ -22,6 +25,9 @@ class Product(models.Model):
 
     price = models.DecimalField(max_digits=5, decimal_places=2)
 
+    def __str__(self):
+        return self.name
+
 
 class Recipient(models.Model):
     """
@@ -37,6 +43,9 @@ class Recipient(models.Model):
     address_town_or_city = models.CharField(max_length=200, null=False, blank=False)
     address_state_or_country = models.CharField(max_length=200, null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Order(models.Model):
     """
@@ -51,6 +60,9 @@ class Order(models.Model):
     shipments = models.JSONField()
     recipient = models.ForeignKey('prodigi.Recipient', on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+        return self.pk
+
 
 class OrderItem(models.Model):
     photo = models.ForeignKey('core.Photo', on_delete=models.SET_NULL, null=True)
@@ -63,6 +75,9 @@ class OrderItem(models.Model):
     recipientCost = models.DecimalField(max_digits=5, decimal_places=2)
     attributes = models.JSONField()
 
+    def __str__(self):
+        return f"{self.of_order.pk} - {self.photo}"
+
 
 class ShoppingCard(models.Model):
     id = HashidAutoField(primary_key=True, min_length=6)
@@ -73,6 +88,9 @@ class ShoppingCard(models.Model):
     def products_count(self):
         return self.items.count()
 
+    def __str__(self):
+        return self.id
+
 
 class ShoppingCardItem(models.Model):
     of_shopping_card = models.ForeignKey('prodigi.ShoppingCard', related_name='items', on_delete=models.CASCADE)
@@ -80,3 +98,6 @@ class ShoppingCardItem(models.Model):
     product = models.ForeignKey('prodigi.Product', on_delete=models.SET_NULL, null=True, related_name='products')
     count = models.PositiveSmallIntegerField(default=1)
     crop_settings = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.of_shopping_card.pk} - {self.photo}"

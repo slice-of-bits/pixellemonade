@@ -76,5 +76,6 @@ class ShoppingCard(models.Model):
 class ShoppingCardItem(models.Model):
     of_shopping_card = models.ForeignKey('prodigi.ShoppingCard', related_name='items', on_delete=models.CASCADE)
     photo = models.ForeignKey('core.Photo', on_delete=models.SET_NULL, null=True)
+    product = models.ForeignKey('prodigi.Product', on_delete=models.SET_NULL, null=True, related_name='products')
     count = models.PositiveSmallIntegerField(default=1)
     crop_settings = models.JSONField(null=True, blank=True)

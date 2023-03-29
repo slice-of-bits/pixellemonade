@@ -1,7 +1,6 @@
 from django.db import models
+from hashid_field import HashidAutoField
 
-
-# Create your models here.
 
 class ProductGroup(models.Model):
     name = models.CharField(max_length=120)
@@ -13,6 +12,7 @@ class Product(models.Model):
     source: https://www.prodigi.com/print-api/docs/reference/#product-details-object
     """
     of_group = models.ForeignKey('prodigi.ProductGroup', on_delete=models.CASCADE, related_name='products')
+    name = models.CharField(max_length=120)
     sku = models.CharField(max_length=30, blank=None)
     description = models.CharField(max_length=120, null=True, blank=True)
     product_dimensions_height = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -65,6 +65,7 @@ class OrderItem(models.Model):
 
 
 class ShoppingCard(models.Model):
+    id = HashidAutoField(primary_key=True, min_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

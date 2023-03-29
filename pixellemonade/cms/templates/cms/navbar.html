@@ -20,10 +20,18 @@
                     <a class="nav-link" href="{% url 'tagger' %}">Tagger</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Search</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'canva_user_list' %}">Canva users</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Shop
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'products_list' %}">Products</a></li>
+                        <li><a class="dropdown-item" href="{% url 'carts_list' %}">Cards</a></li>
+                        <li><a class="dropdown-item" href="{% url 'orders_list' %}">Orders</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>

@@ -54,3 +54,28 @@ def photo_details_view(request, id):
 def canva_users_list_view(request):
     return render(request=request,
                   template_name='cms/canva/users.html')
+
+
+@login_required
+def shop_products_list_view(request):
+    return render(request=request,
+                  template_name='cms/shop/products.html')
+
+
+@login_required
+def shop_carts_list_view(request):
+    return render(request=request,
+                  template_name='cms/shop/carts.html')
+
+
+@login_required
+def shop_orders_list_view(request):
+    return render(request=request,
+                  template_name='cms/shop/orders.html')
+
+
+@login_required
+def shop_cart_details_view(request, id):
+    return render(request=request,
+                  template_name='cms/shop/cart.html',
+                  context={'cart_id': id})

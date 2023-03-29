@@ -1,0 +1,11 @@
+{% extends 'cms/base.html' %}
+{% load unicorn %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body zero_padding">
+            {% unicorn 'shop.products.products_list' %}
+        </div>
+    </div>
+
+{% endblock %}

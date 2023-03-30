@@ -16,7 +16,7 @@ class TagOut(Schema):
 
 class PhotoOut(Schema):
     id: str
-    image_hash: str
+    image_hash: str = None
     tags: list[TagOut]
 
 

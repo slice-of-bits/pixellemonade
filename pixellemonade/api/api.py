@@ -18,7 +18,7 @@ def albums_list(request, groups: str = None):
     return albums
 
 
-@api.get("/photos", response=List[PhotoOut])
+@api.get("/photos", response=List[PhotoOut], url_name='photos_list')
 def photos_list(request):
     return Photo.objects.all()[:100]
 

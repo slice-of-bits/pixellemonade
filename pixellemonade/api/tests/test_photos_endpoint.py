@@ -37,5 +37,5 @@ class TestPhotosEndpoint(TestCase):
         self.assertEquals(response.status_code, 200)
 
     def test_tags_search(self):
-        response = self.client.post(reverse('api-1.0.0:photos_list'))
+        response = self.client.get(reverse('api-1.0.0:photos_list'))
         self.assertEquals(response.status_code, 200)

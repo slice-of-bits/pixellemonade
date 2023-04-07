@@ -2,20 +2,11 @@ from typing import List
 from ninja import NinjaAPI
 from ninja.files import UploadedFile
 
-from pixellemonade.api.schemas import AlbumOut, PhotoOut, PhotoDetailsOut, AlbumDetailOut
-from pixellemonade.core.models import Album, Photo
+from pixellemonade.api.schemas import AlbumOut, PhotoOut, PhotoDetailsOut, AlbumDetailOut, AlbumIn
+from pixellemonade.core.models import Album, Photo, AlbumGroup
 from pixellemonade.core.tasks import process_upload
 
 api = NinjaAPI()
-
-
-@api.get("/albums", response=List[AlbumOut], url_name='albums_list')
-def albums_list(request, groups: str = None):
-    albums = Album.objects.all().order_by('-created_on')
-    if groups:
-        groups_list = groups.split(',')
-        albums = albums.filter(groups__slug__in=groups_list)
-    return albums
 
 
 @api.get("/photos", response=List[PhotoOut], url_name='photos_list')
@@ -28,7 +19,24 @@ def photos_list(request, photo_id):
     return Photo.objects.get(pk=photo_id)
 
 
-@api.get("/album/{album_id}", response=AlbumDetailOut)
+@api.get("/albums", response=List[AlbumOut], url_name='albums_list')
+def albums_list(request, groups: str = None):
+    albums = Album.objects.all().order_by('-created_on')
+    if groups:
+        groups_list = groups.split(',')
+        albums = albums.filter(groups__slug__in=groups_list)
+    return albums
+
+
+@api.post("/album", response=AlbumOut, url_name='create_album')
+def create_album(request, albumin: AlbumIn):
+    album = Album.objects.create(name=albumin.name)
+    if albumin.groups:
+        album.groups.add(*albumin.groups)
+    return album
+
+
+@api.get("/album/{album_id}", response=AlbumDetailOut, url_name='get_album')
 def album_details(request, album_id):
     return Album.objects.get(pk=album_id)
 

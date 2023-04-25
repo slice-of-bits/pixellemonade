@@ -7,6 +7,7 @@ from pixellemonade.api.api import api
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('pixellemonade.core.urls')),
     path('api/', api.urls),
     path('cms/', include('pixellemonade.cms.urls')),
     path('canva/', include('pixellemonade.canva.urls')),

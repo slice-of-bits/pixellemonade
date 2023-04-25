@@ -4,6 +4,8 @@
     <button class="btn btn-primary" unicorn:click="random_photo" style="width: 100%">Next</button>
 
     <br><br>
+    Of album: {{ current_photo.in_album.name }}
+    <br><br>
 
     {% for tag in tags %}
         {% if tag in current_photo.tags.all %}

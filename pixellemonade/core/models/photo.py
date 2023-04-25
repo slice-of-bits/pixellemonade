@@ -28,6 +28,11 @@ def get_big_thumbs_path(instance, filename):
     return 'thumbnails/{0}/big/{1}'.format(instance.in_album.name, filename)
 
 
+class PhotoManager(models.Manager):
+    def search(self, query):
+        return self.all().filter()
+
+
 class Photo(models.Model):
     image_hash = models.CharField(unique=True, max_length=64, null=True)
     original_image = models.ImageField(height_field='original_image_height',
@@ -76,6 +81,22 @@ class Photo(models.Model):
                                         width_field='big_thumbnail_width',
                                         null=True,
                                         storage=PublicStorage())
+
+    @property
+    def view_count(self):
+        return self.photoview_set.all().count()
+
+    @property
+    def big_thumbnail_download_url(self):
+        return self.big_thumbnail.storage.url(self.filename, parameters={
+            'ResponseContentDisposition': f'attachment; filename={self.filename}',
+        })
+
+    @property
+    def original_image_download_url(self):
+        return self.original_image.storage.url(self.filename, parameters={
+            'ResponseContentDisposition': f'attachment; filename={self.filename}',
+        })
 
     @property
     def filename(self):

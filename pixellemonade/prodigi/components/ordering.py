@@ -11,8 +11,13 @@ class OrderingView(UnicornView):
 
     def __init__(self, *args, **kwargs):
         super().__init__(**kwargs)  # calling super is required
+        # Check if the user already has a shopping card in the session
         if self.request.session.get('shopping_card_id'):
-            self.card = ShoppingCard.objects.get(pk=self.request.session.get('shopping_card_id'))
+            try:
+                self.card = ShoppingCard.objects.get(pk=self.request.session.get('shopping_card_id'))
+            except ShoppingCard.DoesNotExist:
+                self.card = ShoppingCard.objects.create()
+                self.request.session['shopping_card_id'] = self.card.pk
         else:
             self.card = ShoppingCard.objects.create()
             self.request.session['shopping_card_id'] = self.card.pk
@@ -24,5 +29,12 @@ class OrderingView(UnicornView):
 
         self.product_groups = ProductGroup.objects.all()
 
+    def add_detail(self, photo_id):
+        item = ShoppingCardItem.objects.create(photo_id=photo_id, of_shopping_card=self.card)
+        self.items.append(item)
+
     def remove_item(self, item_id):
         self.items.remove(item_id)
+
+    def total_price(self):
+        return sum([item.count * item.product.price for item in self.card.items.filter(product__isnull=False)])

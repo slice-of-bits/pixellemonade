@@ -45,3 +45,12 @@ class OrderingDetailView(UnicornView):
     def del_component(self):
         self.detail.delete()
         del self
+
+    def duplicate_photo(self):
+        self.parent.add_detail(self.detail.photo.pk)
+
+    def total_price(self):
+        if self.detail.product:
+            return self.detail.count * self.detail.product.price
+        else:
+            return 0

@@ -28,9 +28,9 @@
                 </button>
             </div>
         </div>
-        <div class="col">&euro; 44.00</div>
+        <div class="col">&euro {{ total_price  }}</div>
         <div class="col">
-            <button class="btn btn-sm btn-outline-primary">Duplicate picture</button>
+            <button class="btn btn-sm btn-outline-primary" unicorn:click="duplicate_photo">Duplicate picture</button>
         </div>
         <div class="col">
             <button class="btn btn-sm btn-outline-danger" unicorn:click="del_component">X</button>

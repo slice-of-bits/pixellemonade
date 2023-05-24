@@ -113,6 +113,18 @@ class Photo(models.Model):
         return self.photoview_set.all().count()
 
     @property
+    def view_session_count(self):
+        return self.photoview_set.distinct('session').count()
+
+    @property
+    def download_count(self):
+        return self.photodownload_set.all().count()
+
+    @property
+    def download_session_count(self):
+        return self.photodownload_set.distinct('session').count()
+
+    @property
     def big_thumbnail_download_url(self):
         return self.big_thumbnail.storage.url(self.filename, parameters={
             'ResponseContentDisposition': f'attachment; filename={self.filename}',

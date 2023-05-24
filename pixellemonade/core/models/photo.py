@@ -8,13 +8,12 @@ from exif import Image
 from imagekit.models import ProcessedImageField
 from pilkit.processors import ResizeToFit
 from django.apps import apps
+import re
 
 from pixellemonade.core.storages import PrivateStorage, PublicStorage
 
-
 def get_path(instance, filename):
     return 'albums/{0}/{1}'.format(instance.in_album.name, filename)
-
 
 def get_small_thumbs_path(instance, filename):
     return 'thumbnails/{0}/small/{1}'.format(instance.in_album.name, filename)
@@ -30,7 +29,32 @@ def get_big_thumbs_path(instance, filename):
 
 class PhotoManager(models.Manager):
     def search(self, query):
-        return self.all().filter()
+        queryset = self.all()
+        PhotoTag = apps.get_model('core', 'PhotoTag')
+
+        if ":" in query:
+
+            album_regex = r'album:\s*(?P<album_name>.+)'
+            album_filter = re.search(album_regex, query).group('album_name') if re.search(album_regex, query) else None
+
+            order_by_regex = r'order_by:\s*(?P<order_by>.+)'
+            order_by = re.search(order_by_regex, query).group('order_by') if re.search(order_by_regex, query) else None
+
+            if order_by:
+                queryset = queryset.order_by(order_by)
+            else:
+                queryset.order_by('-exif_shot_date_time')
+
+            if album_filter:
+                queryset = queryset.filter(in_album__name__icontains=album_filter)
+        else:
+            if len(query) > 1:
+                tags = PhotoTag.objects.filter(name__icontains=query)
+                queryset = queryset.filter(tags__in=tags)
+            else:
+                queryset = queryset.order_by('-exif_shot_date_time')
+
+        return queryset
 
 
 class Photo(models.Model):
@@ -81,6 +105,8 @@ class Photo(models.Model):
                                         width_field='big_thumbnail_width',
                                         null=True,
                                         storage=PublicStorage())
+
+    objects = PhotoManager()
 
     @property
     def view_count(self):

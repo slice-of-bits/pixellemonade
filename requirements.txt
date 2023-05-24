@@ -15,3 +15,4 @@ django-debug-toolbar==3.8.1
 IPTCInfo3==2.1.4
 daphne==4.0.0
 whitenoise==6.4.0
+user-agents==2.2.0

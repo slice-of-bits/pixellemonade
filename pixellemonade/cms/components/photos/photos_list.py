@@ -19,7 +19,6 @@ class PhotosListView(UnicornView):
     def search(self):
         photos = Photo.objects.all().prefetch_related('tags')
         if self.album_id:
-            print(self.album_id)
             photos = photos.filter(in_album=self.album_id)
 
         if self.search_input:

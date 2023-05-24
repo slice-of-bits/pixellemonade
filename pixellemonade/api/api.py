@@ -45,7 +45,6 @@ def album_details(request, album_id):
 def photo_upload(request, album_id, file: UploadedFile, process_now: bool = False):
     photo = Photo(original_image=file, in_album_id=album_id)
     photo.save()
-    print(request.POST.get('process_now', False))
     if request.POST.get('process_now', False):
         photo.make_thumbnails()
         photo.calculate_hash()

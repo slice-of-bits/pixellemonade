@@ -44,6 +44,5 @@ class TestAlbumEndpoint(TestCase):
         res = self.client.post(reverse('api-1.0.0:create_album'), json.dumps(
             {"name": "Test album 1", "groups": [self.test_album_group.pk, self.test_album_group2.pk]}),
                                content_type='application/json')
-        print(res.json())
         self.assertEquals(res.status_code, 200)
         self.assertEquals(len(res.json().get('groups')), 2)

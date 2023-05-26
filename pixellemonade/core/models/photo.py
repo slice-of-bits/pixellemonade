@@ -1,19 +1,22 @@
 import hashlib
 import os
+import re
 
+from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.dispatch import receiver
 from exif import Image
 from imagekit.models import ProcessedImageField
 from pilkit.processors import ResizeToFit
-from django.apps import apps
-import re
 
+from pixellemonade.core.models import Album
 from pixellemonade.core.storages import PrivateStorage, PublicStorage
+
 
 def get_path(instance, filename):
     return 'albums/{0}/{1}'.format(instance.in_album.name, filename)
+
 
 def get_small_thumbs_path(instance, filename):
     return 'thumbnails/{0}/small/{1}'.format(instance.in_album.name, filename)
@@ -32,22 +35,35 @@ class PhotoManager(models.Manager):
         queryset = self.all()
         PhotoTag = apps.get_model('core', 'PhotoTag')
 
+        # Check if the input contains search options
         if ":" in query:
+            # Get all search options using regex
+            search_option = re.findall(r'(\w+:[\w\s-]*)(?!\w*:)', query)
+            # Get all tags using regex
+            tags_input = re.findall(r'[\w\s]+(?!\w*:)', query)[0]
 
-            album_regex = r'album:\s*(?P<album_name>.+)'
-            album_filter = re.search(album_regex, query).group('album_name') if re.search(album_regex, query) else None
+            # If the input only contains search options, set tags_input to empty string
+            # @todo this could be done better
+            if ":" in query.split(' ')[0]:
+                tags_input = ''
 
-            order_by_regex = r'order_by:\s*(?P<order_by>.+)'
-            order_by = re.search(order_by_regex, query).group('order_by') if re.search(order_by_regex, query) else None
+            # Loop through all search options and filter the queryset
+            for option in search_option:
+                if option.startswith('album'):
+                    queryset = queryset.filter(in_album__name__icontains=option.split(':')[1])
+                elif option.startswith('order_by'):
+                    queryset = queryset.order_by(option.split(':')[1])
+                else:
+                    raise ValueError(f'Unknown search option {option}')
 
-            if order_by:
-                queryset = queryset.order_by(order_by)
-            else:
-                queryset.order_by('-exif_shot_date_time')
+            # Loop through all tags and filter the queryset
+            if len(tags_input) > 1:
+                for tag_str in tags_input.split():
+                    tag = PhotoTag.objects.filter(name__icontains=tag_str)
+                    queryset = queryset.filter(tags__in=tag)
 
-            if album_filter:
-                queryset = queryset.filter(in_album__name__icontains=album_filter)
         else:
+            # If no search options are given, search for tags and order by date
             if len(query) > 1:
                 tags = PhotoTag.objects.filter(name__icontains=query)
                 queryset = queryset.filter(tags__in=tags)

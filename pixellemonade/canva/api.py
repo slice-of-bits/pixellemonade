@@ -21,10 +21,10 @@ def canva_resources_find(request, body: PhotoCanvaSearchIn):
     if not canva_user_auth(request, body):
         return {"type": "ERROR", "errorCode": "CONFIGURATION_REQUIRED"}
 
-    photos = Photo.objects.all()
-
     if body.query:
-        photos = photos.filter(tags__name__contains=body.query).distinct('pk')
+        photos = Photo.objects.search(body.query)
+    else:
+        photos = Photo.objects.all()
 
     page_nr = request.GET.get('page', 1)
     paginator = Paginator(photos, per_page=100)

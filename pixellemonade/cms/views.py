@@ -79,3 +79,15 @@ def shop_cart_details_view(request, id):
     return render(request=request,
                   template_name='cms/shop/cart.html',
                   context={'cart_id': id})
+
+@login_required
+def photographer_list_view(request):
+    return render(request=request,
+                  template_name='cms/photographers.html')
+
+
+@login_required
+def photographer_detail_view(request, id):
+    return render(request=request,
+                  template_name='cms/photographer.html',
+                  context={'photographer_id': id})

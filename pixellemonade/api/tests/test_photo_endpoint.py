@@ -24,7 +24,7 @@ class TestPhotoEndpoint(TestCase):
         self.response = self.client.get(reverse('api-1.0.0:photo_detail', kwargs={'photo_id': self.photo.id}))
 
     def test_photo_hash_included(self):
-        self.assertContains(self.response, '2dfdd59b1164bdedc5d1a769e00fec44')
+        self.assertContains(self.response, '0a899fbee3836661c7480796657b07cb')
 
     def test_photo_filename_included(self):
         self.assertIn('Test_image', self.response.json().get('filename'))

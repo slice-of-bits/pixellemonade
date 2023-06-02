@@ -82,6 +82,7 @@ class PhotoManager(models.Manager):
 
 class Photo(models.Model):
     image_hash = models.CharField(unique=True, max_length=64, null=True)
+    photographer = models.ForeignKey('core.Photographer', on_delete=models.SET_NULL, null=True)
     original_image = models.ImageField(height_field='original_image_height',
                                        width_field='original_image_width',
                                        storage=PrivateStorage(), upload_to=get_path)
@@ -255,6 +256,13 @@ class Photo(models.Model):
                 self.exif_shot_date_time = img_exif.get('datetime_original', '').replace(':', '-', 2)
         else:
             print('No exif found')
+
+        if self.exif_json.get('copyright'):
+            Photographer = apps.get_model('core', 'Photographer')
+
+            photographer = Photographer.objects.filter(copyright_match__contains=[self.exif_json.get('copyright')])
+            if photographer.exists():
+                self.photographer = photographer.first()
 
 
 @receiver(models.signals.pre_delete, sender=Photo)

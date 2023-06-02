@@ -1,8 +1,7 @@
 from django.urls import path
 from .views import index_view, albums_index_view, album_new_view, album_detail_view, tagger_view, photos_list, \
     photo_details_view, canva_users_list_view, shop_products_list_view, shop_carts_list_view, shop_orders_list_view, \
-    shop_cart_details_view
-
+    shop_cart_details_view, photographer_list_view
 
 urlpatterns = [
     path('', photos_list),
@@ -12,6 +11,9 @@ urlpatterns = [
 
     path('photos/', photos_list, name='photos_list'),
     path('photo/<slug:id>/', photo_details_view, name='photo_detail'),
+
+    path('photographers/', photographer_list_view, name='photographers_list'),
+    path('photographer/<slug:id>/', index_view, name='photographer_detail'),
 
     path('shop/products/', shop_products_list_view, name='products_list'),
     path('shop/carts/', shop_carts_list_view, name='carts_list'),

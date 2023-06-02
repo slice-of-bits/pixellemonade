@@ -2,3 +2,7 @@ site_name: Pixel Lemonade
 
 theme:
   name: material
+
+plugins:
+  - render_swagger
+  - swagger-ui-tag

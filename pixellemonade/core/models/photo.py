@@ -53,6 +53,13 @@ class PhotoManager(models.Manager):
                     queryset = queryset.filter(in_album__name__icontains=option.split(':')[1])
                 elif option.startswith('order_by'):
                     queryset = queryset.order_by(option.split(':')[1])
+                elif option.startswith('orientation'):
+                    if option.split(':')[1] == 'horizontal':
+                        queryset = queryset.filter(original_image_height__lt=models.F('original_image_width'))
+                    elif option.split(':')[1] == 'vertical':
+                        queryset = queryset.filter(original_image_height__gt=models.F('original_image_width'))
+                    elif option.split(':')[1] == 'square':
+                        queryset = queryset.filter(original_image_height=models.F('original_image_width'))
                 else:
                     raise ValueError(f'Unknown search option {option}')
 

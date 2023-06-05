@@ -10,3 +10,8 @@ class PhotographerDetailsView(UnicornView):
         super().__init__(*args, **kwargs)
         self.photographer = kwargs.get('photographer')
 
+    def save(self):
+        self.photographer.save()
+        self.photographer = Photographer.objects.get(pk=self.photographer.pk)
+        self.reset()
+

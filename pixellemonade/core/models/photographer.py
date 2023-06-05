@@ -15,5 +15,9 @@ class Photographer(models.Model):
     profile_description = models.TextField(null=True, blank=True)
     copyright_match = ArrayField(models.CharField(max_length=64), null=True, blank=True)
 
+    @property
+    def photo_count(self):
+        return self.photo_set.count()
+
     def __str__(self):
         return self.full_name

@@ -11,7 +11,7 @@
     <tbody>
         {% for photographer in photographers %}
             <tr>
-                <td>{{ photographer.full_name }}</td>
+                <td><a href="{% url 'photographer_detail' photographer.id %}">{{ photographer.full_name }}</a></td>
                 <td>{{ photographer.photo_count }}</td>
                 <td>{{ photographer.instagram }}</td>
                 <td>{{ photographer.website }}</td>

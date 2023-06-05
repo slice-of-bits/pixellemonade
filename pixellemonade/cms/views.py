@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from pixellemonade.core.models import Album, Photo
+from pixellemonade.core.models import Album, Photo, Photographer
 
 
 @login_required
@@ -83,11 +83,11 @@ def shop_cart_details_view(request, id):
 @login_required
 def photographer_list_view(request):
     return render(request=request,
-                  template_name='cms/photographers.html')
+                  template_name='cms/photographer/photographers.html')
 
 
 @login_required
 def photographer_detail_view(request, id):
     return render(request=request,
-                  template_name='cms/photographer.html',
-                  context={'photographer_id': id})
+                  template_name='cms/photographer/photographer.html',
+                  context={'photographer': Photographer.objects.get(pk=id)})

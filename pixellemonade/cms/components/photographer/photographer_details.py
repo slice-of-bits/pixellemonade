@@ -1,5 +1,12 @@
 from django_unicorn.components import UnicornView
 
+from pixellemonade.core.models import Photographer
+
 
 class PhotographerDetailsView(UnicornView):
-    pass
+    photographer = Photographer.objects.none()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.photographer = kwargs.get('photographer')
+

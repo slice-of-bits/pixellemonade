@@ -1,0 +1,10 @@
+{% extends 'cms/base.html' %}
+{% load unicorn %}
+
+{% block title %}
+    {{ photographer.full_name }}
+{% endblock %}
+
+{% block content %}
+    {% unicorn 'photographer.photographer_details' photographer=photographer%}
+{% endblock %}

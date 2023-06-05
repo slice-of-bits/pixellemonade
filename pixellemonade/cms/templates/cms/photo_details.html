@@ -45,6 +45,9 @@
                         <td>{{ photo.exif_shot_date_time }}</td>
                     </tr>
                     <tr>
+                        <td>Photographer</td>
+                        <td>{{ photo.photographer.full_name }}</td>
+                    <tr>
                         <td>Exif</td>
                         <td>
                             {% for key, value in photo.exif_json.items %}

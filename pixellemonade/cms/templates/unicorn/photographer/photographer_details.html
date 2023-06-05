@@ -1,3 +1,53 @@
 <div>
-    <!-- put component code here -->
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    profile
+                </div>
+                <div class="card-body zero_padding">
+                    <table class="table table-striped">
+                        <tr>
+                            <td>Full name:</td>
+                            <td>{{ photographer.full_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Profiles:</td>
+                            <td>
+                                {% if photographer.instagram %}
+                                    <a href="{{ photographer.instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                {% endif %}
+                                {% if photographer.facebook %}
+                                    <a href="{{ photographer.facebook }}" target="_blank"><i class="fab fa-facebook"></i></a>
+                                {% endif %}
+                                {% if photographer.twitter %}
+                                    <a href="{{ photographer.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    Info
+                </div>
+                <div class="card-body zero_padding">
+                    <table class="table table-striped ">
+                        <tr>
+                            <td>Albums:</td>
+                            <td>{{ photographer.album_count }}</td>
+                        </tr>
+                        <tr>
+                            <td>Photos:</td>
+                            <td>{{ photographer.photo_count }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary">Save</button>
 </div>

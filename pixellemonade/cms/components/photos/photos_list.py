@@ -4,9 +4,10 @@ from pixellemonade.core.models import Photo, PhotoTag
 
 
 class PhotosListView(UnicornView):
-    photos = None
+    photos = Photo.objects.none()
     search_input: str = None
     album_id = None
+    limit = 50
 
     class Meta:
         javascript_exclude = ("photos", )  # this to prevent sending a lot of data to the browser
@@ -17,13 +18,20 @@ class PhotosListView(UnicornView):
         self.search()
 
     def search(self):
-        photos = Photo.objects.all().prefetch_related('tags')
-        if self.album_id:
-            photos = photos.filter(in_album=self.album_id)
+        photos = Photo.objects.all()
 
-        if self.search_input:
-            photos = Photo.objects.all().filter(tags__name__contains=self.search_input).distinct('pk').prefetch_related('tags')
-        self.photos = photos
+        if self.album_id:
+            photos = photos.filter(in_album__id=self.album_id)
+
+        if self.search_input is not None and self.search_input != "None":
+            print("searching")
+            photos = photos.search(self.search_input)
+
+        self.photos = photos[:self.limit]
 
     def updated_search_input(self, value):
+        self.search()
+
+    def load_more(self):
+        self.limit += 20
         self.search()

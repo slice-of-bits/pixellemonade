@@ -8,15 +8,6 @@ class AlbumGroupOut(Schema):
     slug: str
 
 
-# Album Schema
-class AlbumOut(Schema):
-    id: str
-    name: str
-    created_on: datetime
-    photo_count: int = None
-    groups: list[AlbumGroupOut] = None
-
-
 class AlbumIn(Schema):
     name: str
     groups: list[str] = None
@@ -31,6 +22,8 @@ class PhotoOut(Schema):
     id: str
     image_hash: str = None
     tags: list[TagOut]
+    big_thumbnail_download_url: str = None
+
 
 
 class PhotoDetailsOut(Schema):
@@ -67,3 +60,12 @@ class AlbumDetailOut(Schema):
     created_on: datetime
     photo_count: int
     photo_set: list[PhotoOut]
+
+
+class AlbumOut(Schema):
+    id: str
+    name: str
+    created_on: datetime
+    photo_count: int = None
+    groups: list[AlbumGroupOut] = None
+    thumbnail: PhotoOut = None

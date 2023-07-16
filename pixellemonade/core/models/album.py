@@ -22,5 +22,9 @@ class Album(models.Model):
     def session_count(self):
         return self.photoview_set.objects.filter(of_album=self).values('session_id').distinct().count()
 
+    @property
+    def thumbnail(self):
+        return self.photo_set.first()
+
     def __str__(self):
         return self.name

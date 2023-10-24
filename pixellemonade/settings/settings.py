@@ -2,8 +2,9 @@
 Django settings for pixellemonade project.
 """
 import os
-import environ
 from pathlib import Path
+
+import environ
 
 env = environ.Env()
 
@@ -17,11 +18,6 @@ try:
     environ.Env.read_env(env_path.file('.env'))
 except FileNotFoundError:
     pass
-
-STORAGES = {
-    "original_files": "core.storages.PrivateStorage",
-    "thumbnail_files": "core.storages.PublicStorage",
-}
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str('SECRET_KEY')
@@ -42,19 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    "corsheaders",
     'imagekit',
     'django_unicorn',
     'debug_toolbar',
     'ninja',
+    'treebeard',
 
     'pixellemonade.core',
-    'pixellemonade.api',
-    'pixellemonade.cms',
+    'pixellemonade.pixellemonade_api',
+    'pixellemonade.pixellemonade_cms',
     'pixellemonade.canva',
-    'pixellemonade.prodigi',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
@@ -100,7 +98,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -118,18 +115,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Amsterdam'
 
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 
@@ -144,8 +139,7 @@ DEFAULT_AUTO_FIELD = 'hashid_field.BigHashidAutoField'
 
 HASHID_FIELD_ENABLE_HASHID_OBJECT = False  # this is easier for the api schema stuff
 
-
-CELERY_BROKER_URL= env.str('CELERY_BROKER_URL', 'amqp://rabbituser:rabbitpassword@localhost:5672//')
+CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', 'amqp://rabbituser:rabbitpassword@localhost:5672//')
 CELERY_TIMEZONE = "Australia/Tasmania"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
@@ -163,3 +157,5 @@ PRIVATE_S3_BUCKET_NAME = env.str('PRIVATE_S3_BUCKET_NAME')
 PRIVATE_S3_CUSTOM_DOMAIN_NAME = env.str('PRIVATE_S3_CUSTOM_DOMAIN_NAME', None)
 
 INTERNAL_IPS = env.list('INTERNAL_IPS', default=["127.0.0.1"])
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:5173']

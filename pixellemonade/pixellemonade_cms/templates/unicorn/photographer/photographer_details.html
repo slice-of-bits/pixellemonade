@@ -1,0 +1,66 @@
+<div>
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    profile
+                </div>
+                <div class="card-body zero_padding">
+                    <table class="table table-striped">
+                        <tr>
+                            <td>Full name:</td>
+                            <td>
+                                <input class="form-control" unicorn:model.defer="photographer.full_name">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Profiles:</td>
+                            <td>
+                                <label for="instagram">Instagram</label>
+                                <input id='instagram' class="form-control" unicorn:model.defer="photographer.instagram">
+
+                                <label for="facebook">Facebook</label>
+                                <input id='facebook' class="form-control" unicorn:model.defer="photographer.facebook">
+
+                                <label for="twitter">Twitter</label>
+                                <input id='twitter' class="form-control" unicorn:model.defer="photographer.twitter">
+
+                                <label for="flickr">Flickr</label>
+                                <input id='flickr' class="form-control" unicorn:model.defer="photographer.flickr">
+
+                                <label for="website">Website</label>
+                                <input id='website' class="form-control" unicorn:model.defer="photographer.website">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Copyright match</td>
+                            <td>
+                                <input class="form-control" unicorn:model.defer="photographer.copyright_match">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    Info
+                </div>
+                <div class="card-body zero_padding">
+                    <table class="table table-striped ">
+                        <tr>
+                            <td>Albums:</td>
+                            <td>{{ photographer.album_count }}</td>
+                        </tr>
+                        <tr>
+                            <td>Photos:</td>
+                            <td>{{ photographer.photo_count }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" unicorn:click="save()">Save</button>
+</div>

@@ -1,0 +1,63 @@
+{% extends 'cms/base.html' %}
+{% load settings_value %}
+{% load unicorn %}
+
+{% block title %}
+    {{ album.name }}
+{% endblock %}
+
+{% block head %}
+    <link href="https://releases.transloadit.com/uppy/v3.5.0/uppy.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-4">
+            <h1>{{ album.name }}</h1>
+            {% unicorn 'albums.album' album_id=album.id %}
+        </div>
+        <div class="col-md-8">
+            <h2>Add more images</h2>
+            <form>
+
+
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="process_upload_checkbox">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Direct processing</label>
+                </div>
+                <div type="file" id="drag-drop-area"></div>
+            </form>
+        </div>
+    </div>
+
+    <h2>Photos</h2>
+{#    {% unicorn 'photos.photos_list' album_id=album.id %}#}
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://releases.transloadit.com/uppy/v3.5.0/uppy.min.js"></script>
+    <script>
+        let uppy = new Uppy.Uppy({
+                restrictions: {
+                    allowedFileTypes: ['.jpg', '.png']
+                },
+            }
+        )
+        uppy.use(Uppy.Dashboard, {target: '#drag-drop-area', inline: true})
+        uppy.use(Uppy.XHRUpload, {endpoint: '{% settings_value "API_HOSTNAME" %}album/{{ album.id }}/upload/', headers: {'X-CSRFToken': '{{ csrf_token }}'}})
+
+        let checkBox = document.getElementById("process_upload_checkbox");
+        checkBox.addEventListener("change", function () {
+            if (this.checked) {
+                console.log("Checkbox is checked.");
+                uppy.setMeta({process_now: true})
+            } else {
+                console.log("Checkbox is not checked.");
+                uppy.setMeta({process_now: false})
+            }
+        });
+
+    </script>
+{% endblock %}

@@ -4,13 +4,13 @@ import re
 
 from django.apps import apps
 from django.contrib.auth import get_user_model
+from django.core.files.base import ContentFile
 from django.db import models
 from django.dispatch import receiver
 from exif import Image
 from imagekit.models import ProcessedImageField
 from pilkit.processors import ResizeToFit
 
-from pixellemonade.core.models import Album
 from pixellemonade.core.storages import PrivateStorage, PublicStorage
 
 
@@ -88,14 +88,14 @@ class Photo(models.Model):
                                        storage=PrivateStorage(), upload_to=get_path)
     original_image_height = models.PositiveIntegerField(null=True, blank=True)
     original_image_width = models.PositiveIntegerField(null=True, blank=True)
-    tags = models.ManyToManyField('core.PhotoTag', name='tags')
-    in_album = models.ForeignKey('core.Album', on_delete=models.CASCADE, blank=False)
+    tags = models.ManyToManyField('core.PhotoTag', name='tags', null=True, blank=True)
+    in_album = models.ForeignKey('core.Album', on_delete=models.CASCADE, blank=False, related_name='photos')
 
     uploaded_at = models.DateTimeField(auto_now_add=True)
     exif_shot_date_time = models.DateTimeField(blank=True, null=True, db_index=True)
     exif_json = models.JSONField(null=True)
 
-    owner = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True)
+    owner = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, blank=True)
 
     small_thumbnail_height = models.PositiveSmallIntegerField(null=True, blank=True)
     small_thumbnail_width = models.PositiveSmallIntegerField(null=True, blank=True)
@@ -156,7 +156,7 @@ class Photo(models.Model):
 
     @property
     def original_image_download_url(self):
-        return self.original_image.storage.url(self.filename, parameters={
+        return self.original_image.storage.url(self.original_image.name, parameters={
             'ResponseContentDisposition': f'attachment; filename={self.filename}',
         })
 
@@ -175,9 +175,12 @@ class Photo(models.Model):
         self.image_hash = hash_md5.hexdigest()
 
     def make_thumbnails(self):
-        self.big_thumbnail.save(self.pk, self.original_image)
-        self.medium_thumbnail.save(self.pk, self.original_image)
-        self.small_thumbnail.save(self.pk, self.original_image)
+        # Open the original image
+        content = self.original_image.read()
+        # Loop through the processed image fields
+        for field in [self.small_thumbnail, self.medium_thumbnail, self.big_thumbnail]:
+            # Save the processed image to the desired location using the storage argument
+            field.save(f'{self.original_image.name}.jpg', ContentFile(content))
 
     def add_tags_based_on_iptc_tags(self):
         from iptcinfo3 import IPTCInfo
@@ -263,6 +266,19 @@ class Photo(models.Model):
             photographer = Photographer.objects.filter(copyright_match__contains=[self.exif_json.get('copyright')])
             if photographer.exists():
                 self.photographer = photographer.first()
+
+
+    @property
+    def style_width(self):
+        return int(self.original_image_width * 280 / self.original_image_height)
+
+    @property
+    def flex_grow(self):
+        return int(self.original_image_width * 280 / self.original_image_height)
+
+    @property
+    def padding_bottom(self):
+        return int(self.original_image_height / self.original_image_width * 100)
 
 
 @receiver(models.signals.pre_delete, sender=Photo)

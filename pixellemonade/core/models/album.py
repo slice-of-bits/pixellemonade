@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 
 class Album(models.Model):
@@ -6,9 +7,14 @@ class Album(models.Model):
     created_on = models.DateTimeField(auto_now_add=True, db_index=True)
     groups = models.ManyToManyField('core.AlbumGroup', null=True, blank=True)
 
+
+    @property
+    def slugify_title(self):
+        return slugify(self.name)
+
     @property
     def photo_count(self):
-        return self.photo_set.all().count()
+        return self.photos.all().count()
 
     @property
     def view_count(self):
@@ -24,7 +30,7 @@ class Album(models.Model):
 
     @property
     def thumbnail(self):
-        return self.photo_set.first()
+        return self.photos.first()
 
     def __str__(self):
         return self.name

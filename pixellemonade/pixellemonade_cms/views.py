@@ -7,7 +7,7 @@ from pixellemonade.core.models import Album, Photo, Photographer
 @login_required
 def index_view(request):
     return render(request=request,
-                  template_name='pixellemonade_cms',
+                  template_name='pixellemonade_cms/base.html',
                   context={})
 
 

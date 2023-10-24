@@ -7,7 +7,7 @@ from pixellemonade.core.models import Album, Photo, Photographer
 @login_required
 def index_view(request):
     return render(request=request,
-                  template_name='cms/base.html',
+                  template_name='pixellemonade_cms',
                   context={})
 
 
@@ -34,26 +34,26 @@ def album_detail_view(request, id):
 @login_required
 def tagger_view(request):
     return render(request=request,
-                  template_name='cms/tagger.html')
+                  template_name='pixellemonade_cms/tagger.html')
 
 
 @login_required
 def photos_list(request):
     return render(request=request,
-                  template_name='cms/photos_list.html')
+                  template_name='pixellemonade_cms/photos_list.html')
 
 
 @login_required
 def photo_details_view(request, id):
     return render(request=request,
-                  template_name='cms/photo_details.html',
+                  template_name='pixellemonade_cms/photo_details.html',
                   context={'photo': Photo.objects.get(pk=id)})
 
 
 @login_required
 def canva_users_list_view(request):
     return render(request=request,
-                  template_name='cms/canva/users.html')
+                  template_name='pixellemonade_cms/canva/users.html')
 
 
 @login_required

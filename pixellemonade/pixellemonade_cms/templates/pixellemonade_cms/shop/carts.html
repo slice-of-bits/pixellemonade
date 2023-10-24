@@ -1,0 +1,10 @@
+{% extends 'pixellemonade_cms' %}
+{% load unicorn %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body zero_padding">
+            {% unicorn 'shop.shopping_carts.shopping_carts_list' %}
+        </div>
+    </div>
+{% endblock %}

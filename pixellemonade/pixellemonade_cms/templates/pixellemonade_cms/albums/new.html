@@ -1,0 +1,12 @@
+{% extends 'pixellemonade_cms' %}
+{% load unicorn %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">Create a new album</div>
+
+        <div class="card-body">
+            {% unicorn 'albums.album-new' %}
+        </div>
+    </div>
+{% endblock %}

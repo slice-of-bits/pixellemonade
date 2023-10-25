@@ -14,20 +14,20 @@ def index_view(request):
 @login_required
 def albums_index_view(request):
     return render(request=request,
-                  template_name='cms/albums/albums.html')
+                  template_name='pixellemonade_cms/albums/albums.html')
 
 
 @login_required
 def album_new_view(request):
     return render(request=request,
-                  template_name='cms/albums/new.html')
+                  template_name='pixellemonade_cms/albums/new.html')
 
 
 @login_required
 def album_detail_view(request, id):
     album = Album.objects.get(pk=id)
     return render(request=request,
-                  template_name='cms/albums/album.html',
+                  template_name='pixellemonade_cms/albums/album.html',
                   context={'album': album})
 
 
@@ -59,35 +59,35 @@ def canva_users_list_view(request):
 @login_required
 def shop_products_list_view(request):
     return render(request=request,
-                  template_name='cms/shop/products.html')
+                  template_name='pixellemonade_cms/shop/products.html')
 
 
 @login_required
 def shop_carts_list_view(request):
     return render(request=request,
-                  template_name='cms/shop/carts.html')
+                  template_name='pixellemonade_cms/shop/carts.html')
 
 
 @login_required
 def shop_orders_list_view(request):
     return render(request=request,
-                  template_name='cms/shop/orders.html')
+                  template_name='pixellemonade_cms/shop/orders.html')
 
 
 @login_required
 def shop_cart_details_view(request, id):
     return render(request=request,
-                  template_name='cms/shop/cart.html',
+                  template_name='pixellemonade_cms/shop/cart.html',
                   context={'cart_id': id})
 
 @login_required
 def photographer_list_view(request):
     return render(request=request,
-                  template_name='cms/photographer/photographers.html')
+                  template_name='pixellemonade_cms/photographer/photographers.html')
 
 
 @login_required
 def photographer_detail_view(request, id):
     return render(request=request,
-                  template_name='cms/photographer/photographer.html',
+                  template_name='pixellemonade_cms/photographer/photographer.html',
                   context={'photographer': Photographer.objects.get(pk=id)})

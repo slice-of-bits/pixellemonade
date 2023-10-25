@@ -1,7 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    packages=find_packages(where="pixellemonade"),
-    package_dir={"": "pixellemonade"},
+    name="pixellemonade",
+    version="0.0.1",
+    packages=find_packages(),
     include_package_data=True,
 )

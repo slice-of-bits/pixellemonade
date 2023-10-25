@@ -1,5 +1,7 @@
-#!/usr/bin/env python
-
-if __name__ == "__main__":
-    import setuptools
-    setuptools.setup()
+from setuptools import setup, find_packages
+setup(
+    # ...,
+    packages=find_packages(where="pixellemonade"),
+    package_dir={"": "pixellemonade"},
+    include_package_data=True
+)

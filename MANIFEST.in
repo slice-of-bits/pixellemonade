@@ -1,2 +1,2 @@
-recursive-include pixellemonade/ *.html
-recursive-include pixellemonade/ *.js
+recursive-include pixellemonade *.html
+recursive-include pixellemonade *.js

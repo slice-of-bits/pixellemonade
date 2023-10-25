@@ -1,0 +1,5 @@
+recursive-include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms *.html
+recursive-include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/albums *.html
+recursive-include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/canva *.html
+recursive-include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/photographer *.html
+recursive-include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/tagger *.html

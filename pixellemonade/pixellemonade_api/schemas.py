@@ -59,7 +59,7 @@ class AlbumDetailOut(Schema):
     name: str
     created_on: datetime
     photo_count: int
-    photo_set: list[PhotoOut]
+    photos: list[PhotoOut]
 
 
 class AlbumOut(Schema):

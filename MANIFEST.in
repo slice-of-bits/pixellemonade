@@ -3,3 +3,9 @@ recursive-include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/al
 recursive-include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/canva *.html
 recursive-include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/photographer *.html
 recursive-include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/tagger *.html
+
+include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/*.html
+include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/albums/*.html
+include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/canva/*.html
+include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/photographer/*.html
+include pixellemonade/pixellemonade_cms/templates/pixellemonade_cms/tagger/*.html

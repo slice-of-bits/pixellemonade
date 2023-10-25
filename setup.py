@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    package_data={'pixellemonade': ['templates/*.html']}
+    packages=find_packages(where="pixellemonade"),
+    package_dir={"": "pixellemonade"},
+    include_package_data=True,
 )

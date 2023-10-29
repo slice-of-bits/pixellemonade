@@ -6,6 +6,7 @@ class PublicStorage(S3Boto3Storage):
     access_key = settings.PUBLIC_S3_ACCESS_KEY
     secret_key = settings.PUBLIC_S3_SECRET_KEY
     endpoint_url = settings.PRIVATE_S3_ENDPOINT_URL
+    location = settings.PUBLIC_S3_LOCATION
 
     bucket_name = settings.PUBLIC_S3_BUCKET_NAME
     custom_domain = settings.PUBLIC_S3_CUSTOM_DOMAIN_NAME
@@ -16,6 +17,7 @@ class PrivateStorage(S3Boto3Storage):
     access_key = settings.PRIVATE_S3_ACCESS_KEY
     secret_key = settings.PRIVATE_S3_SECRET_KEY
     endpoint_url = settings.PRIVATE_S3_ENDPOINT_URL
+    location = settings.PRIVATE_S3_LOCATION
 
     bucket_name = settings.PRIVATE_S3_BUCKET_NAME
     custom_domain = settings.PRIVATE_S3_CUSTOM_DOMAIN_NAME
